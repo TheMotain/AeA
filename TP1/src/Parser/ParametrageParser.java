@@ -1,3 +1,4 @@
+package Parser;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -173,9 +174,5 @@ public class ParametrageParser {
 		REVERSE,
 		COMPLEMENTAIRE,
 		COMPLEMENTAIRE_REVERSE;
-	}
-
-	public static void main(final String[] args) {
-
 	}
 }
