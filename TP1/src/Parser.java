@@ -19,7 +19,7 @@ public class Parser {
 	/**
 	 * paramétrage recherche de mot complementaire reverse
 	 */
-	private boolean complementaire_reverse;
+	private boolean reverse_complementaire_reverse;
 
 	/**
 	 * Liste des mots à rechercher.
@@ -33,7 +33,7 @@ public class Parser {
 		direct = false;
 		reverse = false;
 		complementaire = false;
-		complementaire_reverse = false;
+		reverse_complementaire_reverse = false;
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class Parser {
 				complementaire = true;
 				break;
 			case COMPLEMENTAIRE_REVERSE : 
-				complementaire_reverse = true;
+				reverse_complementaire_reverse = true;
 				break;
 			}
 		}
