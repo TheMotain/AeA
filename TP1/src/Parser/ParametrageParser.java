@@ -169,7 +169,7 @@ public class ParametrageParser {
 
 
 
-	private enum TypeRecherche {
+	public enum TypeRecherche {
 		DIRECT,
 		REVERSE,
 		COMPLEMENTAIRE,
