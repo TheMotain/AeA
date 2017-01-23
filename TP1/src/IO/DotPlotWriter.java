@@ -10,43 +10,43 @@ public class DotPlotWriter {
 	/**
 	 * Liste des positions pour ADN axe des abscices
 	 */
-	private final List<Integer> indexeAbs;
+	private final List<Integer> indexAbs;
 
 	/**
 	 * Liste des positions pour ADN axe des ordonnées
 	 */
-	private final List<Integer> indexeOrd;
+	private final List<Integer> indexOrd;
 
 	public DotPlotWriter(){
-		indexeAbs = new ArrayList<Integer>();
-		indexeOrd = new ArrayList<Integer>();
+		indexAbs = new ArrayList<Integer>();
+		indexOrd = new ArrayList<Integer>();
 	}
 
 	public DotPlotWriter(final List<Integer> indicesAbs, final List<Integer> indicesOrd){
-		this.indexeAbs = indicesAbs;
-		this.indexeOrd = indicesOrd;
+		this.indexAbs = indicesAbs;
+		this.indexOrd = indicesOrd;
 	}
 
 	public void generateDotPlot(final String file) throws FileNotFoundException{
 		final PrintWriter writer = new PrintWriter(file);
-		writer.write("x y");
-		for(Integer x : indexeAbs)
-		    for(Integer y : indexeOrd)
+		writer.write("# x y");
+		for(Integer x : indexAbs)
+		    for(Integer y : indexOrd)
 		        writer.write(String.format("%s %s",x,y));
 		writer.close();
 	}
 
 	/**
-	 * @return the indexeAbs
+	 * @return the indexAbs
 	 */
-	public List<Integer> getIndexeAbs() {
-		return indexeAbs;
+	public List<Integer> getIndexAbs() {
+		return indexAbs;
 	}
 
 	/**
-	 * @return the indexeOrd
+	 * @return the indexOrd
 	 */
-	public List<Integer> getIndexeOrd() {
-		return indexeOrd;
+	public List<Integer> getIndexOrd() {
+		return indexOrd;
 	}
 }

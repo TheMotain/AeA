@@ -1,5 +1,4 @@
 package Parser;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,20 +26,20 @@ public class ParametrageParser {
 	/**
 	 * paramétrage recherche de mot complementaire reverse
 	 */
-	private boolean reverse_complementaire_reverse;
+	private boolean complementaire_reverse;
 
 	/**
-	 * Liste des mots à rechercher.
+	 * Mots à rechercher.
 	 */
-	private List<String> words;
+	private String word;
 
 	public ParametrageParser(){
 		resetParam();
-		resetWords();
+		resetWord();
 	}
 
-	private void resetWords(){
-		words = new ArrayList<String>();
+	private void resetWord(){
+		word = "";
 	}
 
 	/**
@@ -50,7 +49,7 @@ public class ParametrageParser {
 		direct = false;
 		reverse = false;
 		complementaire = false;
-		reverse_complementaire_reverse = false;
+		complementaire_reverse = false;
 	}
 
 	/**
@@ -72,28 +71,33 @@ public class ParametrageParser {
 				complementaire = true;
 				break;
 			case COMPLEMENTAIRE_REVERSE : 
-				reverse_complementaire_reverse = true;
+				complementaire_reverse = true;
 				break;
 			}
 		}
 	}
 
 	/**
-	 * Permet d'ajouter un mot à la liste des mots à chercher
+	 * Permet de choisir le mot à chercher
 	 * @param word
 	 * 	Le mot à chercher.
 	 */
-	public void addWordToParse(final String word){
-		words.add(word);
+	public void setWordToParse(final String word){
+		this.word  = word;
 	}
 
 	/**
-	 * Permet de supprimer un mot de la liste
-	 * @param word
-	 * Le Mot à supprimer
+	 * Permet de supprimer le mot à rechercher
 	 */
-	public void removeWordToParse(final String word){
-		words.remove(word);
+	public void removeWordToParse(){
+		resetWord();
+	}
+
+	/**
+	 * @return word to parse
+	 */
+	public String getWordToParse() {
+		return this.word;
 	}
 
 	/**
@@ -141,33 +145,17 @@ public class ParametrageParser {
 	/**
 	 * @return the reverse_complementaire_reverse
 	 */
-	public boolean isReverse_complementaire_reverse() {
-		return reverse_complementaire_reverse;
+	public boolean isComplementaire_reverse() {
+		return complementaire_reverse;
 	}
 
 	/**
-	 * @param reverse_complementaire_reverse the reverse_complementaire_reverse to set
+	 * @param complementaire_reverse the complementaire_reverse to set
 	 */
-	public void setReverse_complementaire_reverse(
-			final boolean reverse_complementaire_reverse) {
-		this.reverse_complementaire_reverse = reverse_complementaire_reverse;
+	public void setRomplementaire_reverse(
+			final boolean complementaire_reverse) {
+		this.complementaire_reverse = complementaire_reverse;
 	}
-
-	/**
-	 * @return the words
-	 */
-	public List<String> getWords() {
-		return words;
-	}
-
-	/**
-	 * @param words the words to set
-	 */
-	public void setWords(final List<String> words) {
-		this.words = words;
-	}
-
-
 
 	public enum TypeRecherche {
 		DIRECT,

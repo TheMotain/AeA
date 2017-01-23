@@ -17,7 +17,7 @@ public class SequenceADN {
 	 * ligne à concaténer.
 	 */
 	public void append(final String line) {
-		adnSequence.concat(line);
+		adnSequence = adnSequence.concat(line);
 	}
 
 	public String getAdnSequence() {
@@ -28,4 +28,31 @@ public class SequenceADN {
 		this.adnSequence = adnSequence;
 	}
 
+	/**
+	 * Permet de réaliser le complémentaire d'une séquence ADN
+	 * @param word séquence d'origine
+	 * @return complémentaire
+	 */
+	public String getComplementaire(String word) {
+		String output = "";
+		for(int i = 0; i < word.length(); i++){
+		    switch(word.charAt(i)){
+		        case 'A' :
+                    output += 'T';
+                    break;
+                case 'T' :
+                    output += 'A';
+                    break;
+                case 'C' :
+                    output += 'G';
+                    break;
+                case 'G' :
+                    output += 'C';
+                    break;
+                default:
+                    output += word.charAt(i);
+		    }
+        }
+		return output;
+	}
 }
