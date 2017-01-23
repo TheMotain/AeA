@@ -1,5 +1,5 @@
-import java.awt.List;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Parser {
@@ -67,6 +67,11 @@ public class Parser {
 		}
 	}
 
+	/**
+	 * Permet d'ajouter un mot à la liste des mots à chercher
+	 * @param word
+	 * 	Le mot à chercher.
+	 */
 	public void addWordToParse(final String word){
 		words.add(word);
 	}
