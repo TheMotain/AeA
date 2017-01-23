@@ -1,3 +1,6 @@
+import java.awt.List;
+import java.util.ArrayList;
+
 
 public class Parser {
 
@@ -24,7 +27,11 @@ public class Parser {
 	/**
 	 * Liste des mots à rechercher.
 	 */
-	private List words;
+	private List<String> words;
+
+	private void resetWords(){
+		words = new ArrayList<String>();
+	}
 
 	/**
 	 * Remet à zero tous les paramétrages
@@ -60,8 +67,8 @@ public class Parser {
 		}
 	}
 
-	public void parseOneWord(final String word){
-
+	public void addWordToParse(final String word){
+		words.add(word);
 	}
 
 	private enum TypeRecherche {
