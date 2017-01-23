@@ -1,3 +1,5 @@
 *.class
 .classpath
-/bin
+*/bin
+*/.idea
+AeA-TP1.iml
