@@ -7,7 +7,15 @@ public class SequenceADN {
 		adnSequence = "";
 	}
 
+	public SequenceADN(final String adn){
+		adnSequence = adn;
+	}
 
+	/**
+	 * Concatène la ligne à la séquence déjà existante
+	 * @param line
+	 * ligne à concaténer.
+	 */
 	public void append(final String line) {
 		adnSequence += line; 
 	}
