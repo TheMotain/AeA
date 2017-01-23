@@ -17,7 +17,7 @@ public class SequenceADN {
 	 * ligne à concaténer.
 	 */
 	public void append(final String line) {
-		adnSequence += line; 
+		adnSequence.concat(line);
 	}
 
 	public String getAdnSequence() {
