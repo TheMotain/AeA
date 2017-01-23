@@ -29,7 +29,7 @@ public class DotPlotWriter {
 
 	public void generateDotPlot(final String file) throws FileNotFoundException{
 		final PrintWriter writer = new PrintWriter(file);
-
+		writer.close();
 	}
 
 	/**
