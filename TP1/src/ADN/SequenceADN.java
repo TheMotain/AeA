@@ -20,13 +20,22 @@ public class SequenceADN {
 		adnSequence = adnSequence.concat(line);
 	}
 
-	public String getAdnSequence() {
-		return adnSequence;
+    /**
+     * Renvoi la taille de la séquence d'ADN
+     * @return taille
+     */
+	public int length(){
+		return adnSequence.length();
 	}
 
-	public void setAdnSequence(final String adnSequence) {
-		this.adnSequence = adnSequence;
-	}
+    /**
+     * Renvoi le caractère à la position choisie
+     * @param index index du caractère
+     * @return le caractère
+     */
+	public char charAt(int index){
+	    return adnSequence.charAt(index);
+    }
 
 	/**
 	 * Permet de réaliser le complémentaire d'une séquence ADN
@@ -49,10 +58,23 @@ public class SequenceADN {
                 case 'G' :
                     output += 'C';
                     break;
+                case 'U' :
+                    output += 'A';
+                    break;
                 default:
                     output += word.charAt(i);
 		    }
         }
 		return output;
 	}
+
+
+    public String getAdnSequence() {
+        return adnSequence;
+    }
+
+    public void setAdnSequence(final String adnSequence) {
+        this.adnSequence = adnSequence;
+    }
+
 }
