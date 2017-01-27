@@ -14,9 +14,11 @@ public class FastaReader {
 		final BufferedReader reader = new BufferedReader(new FileReader(new File(file)));
 		reader.readLine();
 		initSequence(reader);
+		reader.close();
 	}
 
 	private void initSequence(final BufferedReader reader) throws IOException{
+		sequence = new SequenceADN();
 		String line = "";
 		while((line = reader.readLine()) != null){
 			sequence.append(line);
