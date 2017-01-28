@@ -19,8 +19,9 @@ public class Main {
 		parametrage.setWordToParse("GU");
 		parametrage.setParam(TypeRecherche.DIRECT);
 
-		//final ParserShiftOr parser = new ParserShiftOr(parametrage,sequenceADN); //Occ troué : 218 : OK
-		final ParserNaif parser = new ParserNaif(parametrage,sequenceADN); //Occ trouvé : 218 : OK
+		//final ParserNaif parser = new ParserNaif(parametrage,sequenceADN); //Occ trouvé : 218 : OK
+		//final ParserShiftOr parser = new ParserShiftOr(parametrage,sequenceADN); //Occ trouvé : 218 : Ok
+		final ParserKarpRabin parser = new ParserKarpRabin(parametrage,sequenceADN); //Occ trouvé : 218 : OK
 
 		final List<Integer> result = parser.runParser();
 		System.out.println("Nombre d'occurence trouver : " + result.size());
