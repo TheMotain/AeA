@@ -13,7 +13,6 @@ import java.util.Set;
  * Created by ludov on 28/01/2017.
  */
 public class ParserKarpRabin {
-    private static final char[] alphabet = {'A','C','G','T','U'};
     private ParametrageParser parametrage;
     private SequenceADN sequenceADN;
 
