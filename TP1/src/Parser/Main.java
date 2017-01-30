@@ -15,7 +15,11 @@ import java.util.Map;
 public class Main {
 	public static void main(final String[] args) throws IOException, BadStringOperationException {
 		//final SequenceADN sequenceADN = new FastaReader(args[0]).getSequence()
+<<<<<<< HEAD
 		final SequenceADN sequenceADN = new FastaReader("fasta/ARNmessager-1.fasta").getSequence();
+=======
+		final SequenceADN sequenceADN = new FastaReader("fasta/hsa-miR-20a_MI_ARN.fasta").getSequence();
+>>>>>>> 57e57dd626086334fe1df120ed3fc77ee4c52acf
 		final ParametrageParser parametrage = new ParametrageParser();
 		//parametrage.setParam(TypeRecherche.DIRECT,TypeRecherche.REVERSE,TypeRecherche.COMPLEMENTAIRE,TypeRecherche
 		// .COMPLEMENTAIRE_REVERSE);
