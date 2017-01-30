@@ -29,11 +29,9 @@ public class DotPlotWriter {
 
 	public void generateDotPlot(final String file) throws FileNotFoundException {
 		final PrintWriter writer = new PrintWriter(file);
-		writer.write("# x y\n");
-		//		for(Integer x : indexAbs)
-		//		    for(Integer y : indexOrd)
-		for (int i = 0; i < indexAbs.size(); i++)
-			writer.write(String.format("%s %s\n", indexAbs.get(i), indexAbs.get(i)));
+		for (final Integer x : indexAbs)
+			for (final Integer y : indexOrd)
+				writer.write(String.format("%s %s\n", x, y));
 		writer.close();
 	}
 

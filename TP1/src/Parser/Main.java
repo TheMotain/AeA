@@ -12,7 +12,7 @@ import java.util.List;
 public class Main {
 	public static void main(final String[] args) throws IOException, BadStringOperationException {
 		//final SequenceADN sequenceADN = new FastaReader(args[0]).getSequence()
-		final SequenceADN sequenceADN = new FastaReader("TP1/fasta/ARNmessager-1.fasta").getSequence();
+		final SequenceADN sequenceADN = new FastaReader("fasta/hsa-miR-20a_MI_ARN.fasta").getSequence();
 		final ParametrageParser parametrage = new ParametrageParser();
 		//parametrage.setParam(TypeRecherche.DIRECT,TypeRecherche.REVERSE,TypeRecherche.COMPLEMENTAIRE,TypeRecherche
 		// .COMPLEMENTAIRE_REVERSE);
