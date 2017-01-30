@@ -10,7 +10,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 public class Main {
 	public static void main(final String[] args) throws IOException, BadStringOperationException {
@@ -23,12 +22,12 @@ public class Main {
 		parametrage.setParam(TypeRecherche.DIRECT);
 
 		//final ParserNaif parser = new ParserNaif(parametrage,sequenceADN); //Occ trouvé : 218 : OK
-		//final AbstractParser parser = new ParserShiftOr(parametrage, sequenceADN); //Occ trouvé : 218 : Ok
+		final AbstractParser parser = new ParserShiftOr(parametrage, sequenceADN); //Occ trouvé : 218 : Ok
 		//final Parser parser = new ParserKarpRabin(parametrage,sequenceADN); //Occ trouvé : 218 : OK
-        final  ParserTailleMotNNaif parser = new ParserTailleMotNNaif(sequenceADN);
-        final Map<String, List<Integer>> result = parser.run(10);
+
+		final List<Integer> result = parser.runParser();
 		System.out.println("Nombre d'occurence trouver : " + result.size());
-        //new DotPlotWriter(result, result).generateDotPlot("output.plot");
+		new DotPlotWriter(result, result).generateDotPlot("output.plot");
 	}
 
 }

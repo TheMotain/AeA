@@ -10,16 +10,13 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Contient les méthodes communes à tous les parsers
- * Created by alex on 30/01/17.
+ * Created by ludov on 28/01/2017.
  */
-public abstract class AbstractParser {
+public class ParserMorrisEtPratt {
+	private final ParametrageParser parametrage;
+	private final SequenceADN sequenceADN;
 
-	protected final SequenceADN sequenceADN;
-
-	protected final ParametrageParser parametrage;
-
-	public AbstractParser(final ParametrageParser parametrage, final SequenceADN sequenceADN) {
+	public ParserMorrisEtPratt(final ParametrageParser parametrage, final SequenceADN sequenceADN) {
 		this.parametrage = parametrage;
 		this.sequenceADN = sequenceADN;
 	}
@@ -41,7 +38,8 @@ public abstract class AbstractParser {
 		if (parametrage.isComplementaire())
 			result.addAll(run(sequenceADN.getComplementaire(parametrage.getWordToParse())));
 		if (parametrage.isComplementaire_reverse()) {
-			result.addAll(run(sequenceADN.getComplementaire(StringUtils.reverse(parametrage.getWordToParse()))));
+			result.addAll(run(sequenceADN.getComplementaire(StringUtils.reverse(parametrage.getWordToParse())
+			)));
 		}
 		return new ArrayList<>(result);
 	}
@@ -52,10 +50,10 @@ public abstract class AbstractParser {
 	 * @param word
 	 * 		Le mot à chercher
 	 * @return La liste des positions où se trouve le mot
-	 *
-	 * @throws BadStringOperationException
-	 * 		Est retourné si la séquence d'ADN contient des caractère ne se trouvant pas dans l'alphabet
 	 */
-	protected abstract List<Integer> run(final String word) throws BadStringOperationException;
+	private List<Integer> run(final String word) {
+		final List<Integer> result = new ArrayList<>();
 
+		return result;
+	}
 }
