@@ -17,22 +17,23 @@ public class DotPlotWriter {
 	 */
 	private final List<Integer> indexOrd;
 
-	public DotPlotWriter(){
+	public DotPlotWriter() {
 		indexAbs = new ArrayList<Integer>();
 		indexOrd = new ArrayList<Integer>();
 	}
 
-	public DotPlotWriter(final List<Integer> indicesAbs, final List<Integer> indicesOrd){
+	public DotPlotWriter(final List<Integer> indicesAbs, final List<Integer> indicesOrd) {
 		this.indexAbs = indicesAbs;
 		this.indexOrd = indicesOrd;
 	}
 
-	public void generateDotPlot(final String file) throws FileNotFoundException{
+	public void generateDotPlot(final String file) throws FileNotFoundException {
 		final PrintWriter writer = new PrintWriter(file);
 		writer.write("# x y\n");
-		for(Integer x : indexAbs)
-		    for(Integer y : indexOrd)
-		        writer.write(String.format("%s %s\n",x,y));
+		//		for(Integer x : indexAbs)
+		//		    for(Integer y : indexOrd)
+		for (int i = 0; i < indexAbs.size(); i++)
+			writer.write(String.format("%s %s\n", indexAbs.get(i), indexAbs.get(i)));
 		writer.close();
 	}
 
