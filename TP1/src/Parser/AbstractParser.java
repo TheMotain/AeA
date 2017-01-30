@@ -15,9 +15,9 @@ import java.util.Set;
  */
 public abstract class AbstractParser {
 
-	protected SequenceADN sequenceADN;
+	protected final SequenceADN sequenceADN;
 
-	protected ParametrageParser parametrage;
+	protected final ParametrageParser parametrage;
 
 	public AbstractParser(final ParametrageParser parametrage, final SequenceADN sequenceADN) {
 		this.parametrage = parametrage;
