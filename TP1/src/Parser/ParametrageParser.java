@@ -1,4 +1,5 @@
 package Parser;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -31,15 +32,11 @@ public class ParametrageParser {
 	/**
 	 * Mots à rechercher.
 	 */
-	private String word;
+	private List<String> words;
 
 	public ParametrageParser(){
 		resetParam();
-		resetWord();
-	}
-
-	private void resetWord(){
-		word = "";
+		resetWords();
 	}
 
 	/**
@@ -50,6 +47,10 @@ public class ParametrageParser {
 		reverse = false;
 		complementaire = false;
 		complementaire_reverse = false;
+	}
+
+	private void resetWords(){
+		words = new ArrayList<>();
 	}
 
 	/**
@@ -83,21 +84,21 @@ public class ParametrageParser {
 	 * 	Le mot à chercher.
 	 */
 	public void setWordToParse(final String word){
-		this.word  = word;
+		this.words.add(word);
 	}
 
 	/**
 	 * Permet de supprimer le mot à rechercher
 	 */
 	public void removeWordToParse(){
-		resetWord();
+		resetWords();
 	}
 
 	/**
-	 * @return word to parse
+	 * @return words to parse
 	 */
-	public String getWordToParse() {
-		return this.word;
+	public List<String> getWordsToParse() {
+		return this.words;
 	}
 
 	/**
