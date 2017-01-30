@@ -1,11 +1,10 @@
 package Parser;
-import java.util.ArrayList;
+
 import java.util.List;
 
 
 /**
  * Permet de paramètrer le parser
- * 
  */
 public class ParametrageParser {
 
@@ -32,9 +31,9 @@ public class ParametrageParser {
 	/**
 	 * Mots à rechercher.
 	 */
-	private List<String> words;
+	private String word;
 
-	public ParametrageParser(){
+	public ParametrageParser() {
 		resetParam();
 		resetWords();
 	}
@@ -42,63 +41,65 @@ public class ParametrageParser {
 	/**
 	 * Remet à zero tous les paramétrages
 	 */
-	private void resetParam(){
+	private void resetParam() {
 		direct = false;
 		reverse = false;
 		complementaire = false;
 		complementaire_reverse = false;
 	}
 
-	private void resetWords(){
-		words = new ArrayList<>();
+	private void resetWords() {
+		word = "";
 	}
 
 	/**
 	 * Set les paramètrages souhaités
+	 *
 	 * @param recherches
 	 * 		Suite de paramètres de type {@link TypeRecherche}
 	 */
-	public void setParam(final TypeRecherche... recherches){
+	public void setParam(final TypeRecherche... recherches) {
 		resetParam();
-		for(final TypeRecherche type : recherches){
-			switch(type){
-			case DIRECT : 
-				direct = true;
-				break;
-			case REVERSE : 
-				reverse = true;
-				break;
-			case COMPLEMENTAIRE : 
-				complementaire = true;
-				break;
-			case COMPLEMENTAIRE_REVERSE : 
-				complementaire_reverse = true;
-				break;
+		for (final TypeRecherche type : recherches) {
+			switch (type) {
+				case DIRECT:
+					direct = true;
+					break;
+				case REVERSE:
+					reverse = true;
+					break;
+				case COMPLEMENTAIRE:
+					complementaire = true;
+					break;
+				case COMPLEMENTAIRE_REVERSE:
+					complementaire_reverse = true;
+					break;
 			}
 		}
 	}
 
 	/**
-	 * Permet de choisir le mot à chercher
-	 * @param word
-	 * 	Le mot à chercher.
-	 */
-	public void setWordToParse(final String word){
-		this.words.add(word);
-	}
-
-	/**
 	 * Permet de supprimer le mot à rechercher
 	 */
-	public void removeWordToParse(){
+	public void removeWordToParse() {
 		resetWords();
 	}
 
 	/**
 	 * @return words to parse
 	 */
-	public List<String> getWordsToParse() {
-		return this.words;
+	public String getWordToParse() {
+		return this.word;
+	}
+
+	/**
+	 * Permet de choisir le mot à chercher
+	 *
+	 * @param word
+	 * 		Le mot à chercher.
+	 */
+	public void setWordToParse(final String word) {
+		this.word = word;
 	}
 
 	/**
@@ -109,7 +110,8 @@ public class ParametrageParser {
 	}
 
 	/**
-	 * @param direct the direct to set
+	 * @param direct
+	 * 		the direct to set
 	 */
 	public void setDirect(final boolean direct) {
 		this.direct = direct;
@@ -123,7 +125,8 @@ public class ParametrageParser {
 	}
 
 	/**
-	 * @param reverse the reverse to set
+	 * @param reverse
+	 * 		the reverse to set
 	 */
 	public void setReverse(final boolean reverse) {
 		this.reverse = reverse;
@@ -137,7 +140,8 @@ public class ParametrageParser {
 	}
 
 	/**
-	 * @param complementaire the complementaire to set
+	 * @param complementaire
+	 * 		the complementaire to set
 	 */
 	public void setComplementaire(final boolean complementaire) {
 		this.complementaire = complementaire;
@@ -151,7 +155,8 @@ public class ParametrageParser {
 	}
 
 	/**
-	 * @param complementaire_reverse the complementaire_reverse to set
+	 * @param complementaire_reverse
+	 * 		the complementaire_reverse to set
 	 */
 	public void setRomplementaire_reverse(
 			final boolean complementaire_reverse) {

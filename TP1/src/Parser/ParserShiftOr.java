@@ -35,16 +35,14 @@ public class ParserShiftOr {
 	 */
 	public List<Integer> runParser() throws BadStringOperationException {
 		final Set<Integer> result = new HashSet<>();
-		for (final String word : parametrage.getWordsToParse()) {
-			if (parametrage.isDirect())
-				result.addAll(run(word));
-			if (parametrage.isReverse())
-				result.addAll(run(StringUtils.reverse(word)));
-			if (parametrage.isComplementaire())
-				result.addAll(run(sequenceADN.getComplementaire(word)));
-			if (parametrage.isComplementaire_reverse()) {
-				result.addAll(run(sequenceADN.getComplementaire(StringUtils.reverse(word))));
-			}
+		if (parametrage.isDirect())
+			result.addAll(run(parametrage.getWordToParse()));
+		if (parametrage.isReverse())
+			result.addAll(run(StringUtils.reverse(parametrage.getWordToParse())));
+		if (parametrage.isComplementaire())
+			result.addAll(run(sequenceADN.getComplementaire(parametrage.getWordToParse())));
+		if (parametrage.isComplementaire_reverse()) {
+			result.addAll(run(sequenceADN.getComplementaire(StringUtils.reverse(parametrage.getWordToParse()))));
 		}
 		return new ArrayList<>(result);
 	}
