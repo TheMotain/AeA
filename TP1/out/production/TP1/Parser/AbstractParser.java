@@ -57,4 +57,5 @@ public abstract class AbstractParser {
 	 * 		Est retourné si la séquence d'ADN contient des caractère ne se trouvant pas dans l'alphabet
 	 */
 	protected abstract List<Integer> run(final String word) throws BadStringOperationException;
+
 }
