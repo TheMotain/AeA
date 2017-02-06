@@ -1,21 +1,16 @@
-package Parser;
+package Parser.ParserMotUnique;
 
 import ADN.SequenceADN;
-import Utils.StringUtils;
 
-import javax.management.BadStringOperationException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
- * Created by ludov on 29/01/2017.
- * Algorithme de Knuth, Morris et Pratt(1975)
+ * Created by ludov on 28/01/2017.
  */
-public class ParserKMP extends AbstractParser{
+public class ParserMorrisEtPratt extends AbstractParser {
 
-	public ParserKMP(final ParametrageParser parametrage, final SequenceADN sequenceADN) {
+	public ParserMorrisEtPratt(final ParametrageParser parametrage, final SequenceADN sequenceADN) {
 		super(parametrage,sequenceADN);
 	}
 

@@ -1,4 +1,4 @@
-package Parser;
+package Parser.ParserTailleMot;
 
 import ADN.SequenceADN;
 
@@ -19,8 +19,7 @@ public class ParserTailleMotNNaif {
         this.sequenceADN = sequenceADN;
     }
 
-
-    protected Map<String, List<Integer>>run(final int n) {
+    public Map<String, List<Integer>>run(final int n) {
         Map<String, List<Integer>> result = new HashMap<>();
         for (int i = 0; i < sequenceADN.length(); i++) {
             //Je vérifie si le mot peut passer avant de faire mes tests

@@ -3,6 +3,7 @@ package Parser;
 import ADN.SequenceADN;
 import IO.DotPlotWriter;
 import IO.FastaReader;
+import Parser.ParserTailleMot.ParserTailleMotNNaif;
 
 import java.io.IOException;
 import java.util.List;

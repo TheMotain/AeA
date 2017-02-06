@@ -1,4 +1,4 @@
-package Parser;
+package Parser.ParserMotUnique;
 
 import ADN.SequenceADN;
 
