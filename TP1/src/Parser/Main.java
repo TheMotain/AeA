@@ -1,13 +1,10 @@
 package Parser;
 
 import ADN.SequenceADN;
-import IO.DotPlotWriter;
 import IO.FastaReader;
 import Parser.ParametrageParser.TypeRecherche;
 
 import javax.management.BadStringOperationException;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
@@ -29,15 +26,13 @@ public class Main {
 		//final AbstractParser parser = new ParserShiftOr(parametrage, sequenceADN); //Occ trouvé : 218 : Ok
 		//final Parser parser = new ParserKarpRabin(parametrage,sequenceADN); //Occ trouvé : 218 : OK
         final  ParserTailleMotNNaif parser = new ParserTailleMotNNaif(sequenceADN);
+        // N = Taille des mots à chercher
         final Map<String, List<Integer>> result = parser.run(2);
 		System.out.println("Nombre d'occurence trouver : " + result.size());
         Set cles = result.keySet();
-        Iterator it = cles.iterator();
-        while (it.hasNext()){
-            Object cle = it.next(); // tu peux typer plus finement ici
+        for (Object cle : cles) {
             System.out.println("Clef : " + cle + " nbOccu : " + result.get(cle).size());
         }
-
         //new DotPlotWriter(result, result).generateDotPlot("output.plot");
 	}
 
