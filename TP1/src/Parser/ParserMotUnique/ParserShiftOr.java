@@ -1,6 +1,7 @@
 package Parser.ParserMotUnique;
 
 import ADN.SequenceADN;
+import Parser.ParametrageParser;
 
 import javax.management.BadStringOperationException;
 import java.util.ArrayList;
@@ -25,9 +26,13 @@ public class ParserShiftOr extends AbstractParser {
 		final int[][] matriceOccur = new int[sequenceADN.length()][word.length()];
 
 		final int[] currentCharacter = new int[word.length()];
-		for (int i = 0; i < word.length(); i++) currentCharacter[i] = 0;
+		for (int i = 0; i < word.length(); i++) {
+			currentCharacter[i] = 0;
+		}
 
-		if (sequenceADN.charAt(0) == word.charAt(0)) currentCharacter[0] += 0b1;
+		if (sequenceADN.charAt(0) == word.charAt(0)) {
+			currentCharacter[0] += 0b1;
+		}
 		for (int i = 0; i < matriceOccur[0].length; i++) {
 			matriceOccur[0][i] = currentCharacter[i];
 		}
@@ -41,10 +46,13 @@ public class ParserShiftOr extends AbstractParser {
 			// récupération de la matrice B
 			int z;
 			for (z = 0; z < alphabet.length; z++) {
-				if (alphabet[z] == sequenceADN.charAt(i))
+				if (alphabet[z] == sequenceADN.charAt(i)) {
 					break;
+				}
 			}
-			if (z >= alphabet.length) throw new BadStringOperationException("Unknow caractere");
+			if (z >= alphabet.length) {
+				throw new BadStringOperationException("Unknow caractere");
+			}
 
 			for (int j = 0; j < currentCharacter.length; j++) {
 				currentCharacter[j] &= matriceB[z][j];

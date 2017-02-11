@@ -1,6 +1,7 @@
 package Parser.ParserMotUnique;
 
 import ADN.SequenceADN;
+import Parser.ParametrageParser;
 import Utils.StringUtils;
 
 import javax.management.BadStringOperationException;
@@ -28,18 +29,20 @@ public abstract class AbstractParser {
 	 * Recherche toutes les occurence du mot dans la séquence d'adn en fonction du paramétrage
 	 *
 	 * @return la liste de tous les indexes sans doublons.
-	 *
 	 * @throws BadStringOperationException
 	 * 		Est retourné si la séquence d'ADN contient des caractère ne se trouvant pas dans l'alphabet
 	 */
 	public List<Integer> runParser() throws BadStringOperationException {
 		final Set<Integer> result = new HashSet<>();
-		if (parametrage.isDirect())
+		if (parametrage.isDirect()) {
 			result.addAll(run(parametrage.getWordToParse()));
-		if (parametrage.isReverse())
+		}
+		if (parametrage.isReverse()) {
 			result.addAll(run(StringUtils.reverse(parametrage.getWordToParse())));
-		if (parametrage.isComplementaire())
+		}
+		if (parametrage.isComplementaire()) {
 			result.addAll(run(sequenceADN.getComplementaire(parametrage.getWordToParse())));
+		}
 		if (parametrage.isComplementaire_reverse()) {
 			result.addAll(run(sequenceADN.getComplementaire(StringUtils.reverse(parametrage.getWordToParse()))));
 		}
@@ -52,7 +55,6 @@ public abstract class AbstractParser {
 	 * @param word
 	 * 		Le mot à chercher
 	 * @return La liste des positions où se trouve le mot
-	 *
 	 * @throws BadStringOperationException
 	 * 		Est retourné si la séquence d'ADN contient des caractère ne se trouvant pas dans l'alphabet
 	 */
