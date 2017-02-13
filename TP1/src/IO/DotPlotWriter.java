@@ -1,5 +1,9 @@
 package IO;
 
+import ADN.SequenceADN;
+import Parser.ParametrageParser;
+import Utils.StringUtils;
+
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -64,10 +68,17 @@ public class DotPlotWriter {
 	 * @param file
 	 * @throws FileNotFoundException
 	 */
-	public void generateDotPlotMultiWord(final String file) throws FileNotFoundException {
+	public void generateDotPlotMultiWord(final String file, ParametrageParser param, SequenceADN sequence) throws FileNotFoundException {
 		final PrintWriter writer = new PrintWriter(file);
 		for (final Map.Entry<String, List<Integer>> word : mapIndex.entrySet()) {
-			writePositions(writer, word.getValue(), word.getValue());
+			if(param.isDirect())
+				writePositions(writer, word.getValue(), word.getValue());
+			if(param.isReverse())
+				writePositions(writer, word.getValue(), mapIndex.get(StringUtils.reverse(word.getKey())));
+			if(param.isComplementaire())
+				writePositions(writer, word.getValue(), mapIndex.get(sequence.getComplementaire(word.getKey())));
+			if(param.isComplementaire_reverse())
+				writePositions(writer, word.getValue(), mapIndex.get(StringUtils.reverse(sequence.getComplementaire(word.getKey()))));
 		}
 		writer.flush();
 		writer.close();

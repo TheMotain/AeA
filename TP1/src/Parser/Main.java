@@ -22,11 +22,11 @@ public class Main {
 			parametrage.setParam(TypeRecherche.DIRECT, TypeRecherche.COMPLEMENTAIRE, TypeRecherche.REVERSE,
 					TypeRecherche.COMPLEMENTAIRE_REVERSE);
 		}
-		final ParserTailleMotNNaif parser = new ParserTailleMotNNaif(sequenceADN, parametrage);
+		final ParserTailleMotNNaif parser = new ParserTailleMotNNaif(sequenceADN);
 		final Map<String, List<Integer>> result = parser.run(Integer.parseInt(args[1]));
 		new DotPlotWriter(result).generateDotPlotMultiWord(
 				args[0].substring(args[0].lastIndexOf("/") + 1, args[0].lastIndexOf(".")) + "-lengthOccur-" + args[1] +
-						".plot");
+						".plot", parametrage,sequenceADN);
 	}
 
 

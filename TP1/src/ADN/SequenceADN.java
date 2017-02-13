@@ -38,7 +38,7 @@ public class SequenceADN {
 		for(int i = 0; i < word.length(); i++){
 		    switch(word.charAt(i)){
 		        case 'A' :
-                    output += 'T';
+                    output += 'U';
                     break;
                 case 'T' :
                     output += 'A';
