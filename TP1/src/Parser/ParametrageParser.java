@@ -1,7 +1,7 @@
-package Parser.ParserMotUnique;
+package Parser;
 
+import java.util.ArrayList;
 import java.util.List;
-
 
 /**
  * Permet de paramètrer le parser
@@ -168,5 +168,28 @@ public class ParametrageParser {
 		REVERSE,
 		COMPLEMENTAIRE,
 		COMPLEMENTAIRE_REVERSE;
+
+		public static TypeRecherche[] findValues(final String[] strings) {
+			final List<TypeRecherche> args = new ArrayList<TypeRecherche>();
+			for (final String arg : strings) {
+				switch (arg) {
+					case "D":
+						args.add(DIRECT);
+						break;
+					case "R":
+						args.add(REVERSE);
+						break;
+					case "C":
+						args.add(COMPLEMENTAIRE);
+						break;
+					case "RC":
+						args.add(COMPLEMENTAIRE_REVERSE);
+						break;
+					default:
+						break;
+				}
+			}
+			return args.toArray(new TypeRecherche[args.size()]);
+		}
 	}
 }

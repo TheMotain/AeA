@@ -1,6 +1,7 @@
 package Parser.ParserMotUnique;
 
 import ADN.SequenceADN;
+import Parser.ParametrageParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
 public class ParserMorrisEtPratt extends AbstractParser {
 
 	public ParserMorrisEtPratt(final ParametrageParser parametrage, final SequenceADN sequenceADN) {
-		super(parametrage,sequenceADN);
+		super(parametrage, sequenceADN);
 	}
 
 	/**
@@ -21,6 +22,7 @@ public class ParserMorrisEtPratt extends AbstractParser {
 	 * 		Le mot à chercher
 	 * @return La liste des positions où se trouve le mot
 	 */
+	@Override
 	protected List<Integer> run(final String word) {
 		final List<Integer> result = new ArrayList<>();
 

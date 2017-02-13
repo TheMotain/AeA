@@ -1,6 +1,7 @@
 package Parser.ParserMotUnique;
 
 import ADN.SequenceADN;
+import Parser.ParametrageParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
 public class ParserKarpRabin extends AbstractParser {
 
 	public ParserKarpRabin(final ParametrageParser parametrage, final SequenceADN sequenceADN) {
-		super(parametrage,sequenceADN);
+		super(parametrage, sequenceADN);
 	}
 
 	/**
@@ -21,6 +22,7 @@ public class ParserKarpRabin extends AbstractParser {
 	 * 		Le mot à chercher
 	 * @return La liste des positions où se trouve le mot
 	 */
+	@Override
 	protected List<Integer> run(final String word) {
 		final List<Integer> result = new ArrayList<>();
 		final int hachageValueWord = getHachageValue(word);
@@ -28,13 +30,19 @@ public class ParserKarpRabin extends AbstractParser {
 		int j = 0;
 		for (int i = 0; i < sequenceADN.length(); i++) {
 			//Je vérifie si le mot peut passer avant de faire mes tests
-			if (word.length() + i >= sequenceADN.length()) break;
+			if (word.length() + i >= sequenceADN.length()) {
+				break;
+			}
 			if (getHachageValue(sequenceADN.getAdnSequence().substring(i, i + word.length())) == hachageValueWord) {
 				for (j = 0; j < word.length(); j++) {
-					if (sequenceADN.charAt(i + j) != word.charAt(j)) break;
+					if (sequenceADN.charAt(i + j) != word.charAt(j)) {
+						break;
+					}
 				}
 				//Si tout le "for" s'est éxécuter c'est que le mot a était vérifier totalement
-				if (j == word.length()) result.add(i);
+				if (j == word.length()) {
+					result.add(i);
+				}
 			}
 		}
 		return result;
