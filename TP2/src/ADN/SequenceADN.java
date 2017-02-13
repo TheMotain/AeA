@@ -1,5 +1,9 @@
 package ADN;
 
+import javax.management.Query;
+import java.util.ArrayList;
+import java.util.List;
+
 public class SequenceADN {
 	private String adnSequence;
 
@@ -33,30 +37,44 @@ public class SequenceADN {
 	 * @param word séquence d'origine
 	 * @return complémentaire
 	 */
-	public String getComplementaire(String word) {
-		String output = "";
-		for(int i = 0; i < word.length(); i++){
-		    switch(word.charAt(i)){
-		        case 'A' :
-                    output += 'T';
+	public List<String> getComplementaires(String word) {
+        List<String> outputs = new ArrayList<>();
+        List<String> l1;
+        List<String> l2;
+        outputs.add("");
+	    for(char c : word.toCharArray()){
+            switch(c){
+                case 'A' :
+                    outputs = ajouter(outputs, 'U');
                     break;
                 case 'T' :
-                    output += 'A';
+                    outputs = ajouter(outputs, 'A');
                     break;
                 case 'C' :
-                    output += 'G';
+                    outputs = ajouter(outputs, 'G');
                     break;
                 case 'G' :
-                    output += 'C';
+                    outputs = ajouter(outputs, 'C');
                     break;
                 case 'U' :
-                    output += 'A';
+                    l1 = ajouter(outputs, 'A');
+                    l2 = ajouter(outputs, 'G');
+                    outputs.addAll(l1);
+                    outputs.addAll(l2);
                     break;
                 default:
-                    output += word.charAt(i);
-		    }
+                    outputs = ajouter(outputs, c);
+            }
         }
-		return output;
+		return outputs;
+	}
+
+    private List<String> ajouter(final List<String> inputs, final char a) {
+        List<String> outputs = new ArrayList<>();
+        for(String input : inputs){
+            outputs.add(input.concat(String.valueOf(a)));
+        }
+        return outputs;
 	}
 
 
