@@ -109,6 +109,8 @@ public class DotPlotWriter {
 	 * 		liste des occurences en ordonnées
 	 */
 	private void writePositions(final PrintWriter writer, final List<Integer> abs, final List<Integer> ord) {
+		if(abs == null || ord == null)
+			return;
 		for (final Integer x : abs) {
 			for (final Integer y : ord) {
 				writer.write(String.format("%s %s\n", x, y));
