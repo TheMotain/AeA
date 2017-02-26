@@ -69,6 +69,12 @@ public class SequenceADN {
 		return outputs;
 	}
 
+	/**
+	 * ajoute à tous les complémentaires trouvé le caractère en paramètre
+	 * @param inputs liste des complémentaires généré
+	 * @param a caractère à concaténer
+	 * @return nouvelle liste de complémentaires
+	 */
     private List<String> ajouter(final List<String> inputs, final char a) {
         List<String> outputs = new ArrayList<>();
         for(String input : inputs){
@@ -78,12 +84,27 @@ public class SequenceADN {
 	}
 
 
+	/**
+	 * Getter de l'attribut {@link SequenceADN#adnSequence}
+	 * @return l'attribut
+	 */
     public String getAdnSequence() {
         return adnSequence;
     }
 
-    public void setAdnSequence(final String adnSequence) {
+	/**
+	 * Setter de l'attribut {@link SequenceADN#adnSequence}
+	 * @param adnSequence l'attribut à setter
+	 */
+	public void setAdnSequence(final String adnSequence) {
         this.adnSequence = adnSequence;
     }
 
+	/**
+	 * Retourne la taille de la séquence d'ADN
+	 * @return la taille
+	 */
+	public int getSize() {
+		return this.adnSequence.length();
+	}
 }
