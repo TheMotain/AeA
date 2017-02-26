@@ -73,11 +73,11 @@ public class DotPlotWriter {
 		for (final Map.Entry<String, List<Integer>> word : mapIndex.entrySet()) {
 			if(param.isDirect())
 				writePositions(writer, word.getValue(), word.getValue());
-			if(param.isReverse())
+			if(param.isReverse() && null != mapIndex.get(StringUtils.reverse(word.getKey())))
 				writePositions(writer, word.getValue(), mapIndex.get(StringUtils.reverse(word.getKey())));
-			if(param.isComplementaire())
+			if(param.isComplementaire() && null != mapIndex.get(sequence.getComplementaire(word.getKey())))
 				writePositions(writer, word.getValue(), mapIndex.get(sequence.getComplementaire(word.getKey())));
-			if(param.isComplementaire_reverse())
+			if(param.isComplementaire_reverse() && null != mapIndex.get(StringUtils.reverse(sequence.getComplementaire(word.getKey()))))
 				writePositions(writer, word.getValue(), mapIndex.get(StringUtils.reverse(sequence.getComplementaire(word.getKey()))));
 		}
 		writer.flush();
