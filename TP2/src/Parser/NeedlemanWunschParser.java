@@ -3,6 +3,11 @@ package Parser;
 import ADN.SequenceADN;
 import Utils.StringUtils;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 /**
  * Parser selon la methode needleman wunsch
  * <p>
@@ -45,6 +50,8 @@ public class NeedlemanWunschParser extends AbstractParser {
 	 */
 	private String sequence2;
 
+	private boolean[] tabMatch;
+
 	/**
 	 * Constructor
 	 *
@@ -61,11 +68,15 @@ public class NeedlemanWunschParser extends AbstractParser {
 				tableChoix[i][j] = null;
 			}
 		}
+		tabMatch = new boolean[sequence1.length()];
+		for (int i = 0; i < tabMatch.length; i++) {
+			tabMatch[i] = false;
+		}
 	}
 
 	public static void main(String[] args) {
 		SequenceADN seq = new SequenceADN();
-		seq.setAdnSequence("ACGUAGAAACCCCCGUAAUAUGUGACGCCCACAUAUUACGGGGGUUUCUACGU");
+		seq.setAdnSequence("ACGUAGGAAAACCCCCGUAAUAUGUGACGCCCACAUAUUACGGGGGUUUCUACGU");
 		new NeedlemanWunschParser(seq).runParser();
 	}
 
@@ -74,6 +85,7 @@ public class NeedlemanWunschParser extends AbstractParser {
 		int i = sequence1.length();
 		int j = sequence2.length();
 		recurrenceNeedlemanWunsch(i, j);
+		remplirTabMatch();
 
 		logMatrice();
 		exportMatrice();
@@ -85,23 +97,65 @@ public class NeedlemanWunschParser extends AbstractParser {
 		char[] apparaiment = apparaimentNucleotide(tabRemontee);
 
 		logApparaiment(apparaiment);
+		logTabMatch();
 
 		return apparaiment;
+	}
+
+	private void remplirTabMatch() {
+		int j = 0;
+		for (int i = 0; i < tabMatch.length - 2; i++) {
+			if (sequenceADN.getComplementaires(sequence2.substring(i, i + 3)).contains(sequence1.substring(i, i + 3)
+			)) {
+				tabMatch[i] |= true;
+				tabMatch[i + 1] |= true;
+				tabMatch[i + 2] |= true;
+				j++;
+			}
+		}
+	}
+
+	private void logTabMatch() {
+		for (int i = 0; i < tabMatch.length; i++) {
+			if (tabMatch[i]) {
+				System.out.print("|");
+			} else {
+				System.out.print("-");
+			}
+		}
+		System.out.println();
 	}
 
 	/**
 	 * Permet d'exporter la matrice au format CSV
 	 */
 	private void exportMatrice() {
-	/*	try {
+		try {
 			PrintWriter buffer = new PrintWriter(new FileWriter(new File("output.csv")));
 			buffer.write(";;");
 			for (int i = 0; i < sequence1.length(); i++) {
-				buffer
+				buffer.write(sequence1.charAt(i) + ";");
 			}
+			buffer.write("\n");
+			for (int j = 0; j < sequence2.length() + 1; j++) {
+				if (j == 0) {
+					buffer.write(";");
+				} else {
+					buffer.write(sequence2.charAt(j - 1) + ";");
+				}
+				for (int i = 0; i < sequence1.length() + 1; i++) {
+					if (tableChoix[i][j] != null) {
+						buffer.write(tableChoix[i][j] + ";");
+					} else {
+						buffer.write(";");
+					}
+				}
+				buffer.write("\n");
+			}
+			buffer.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}*/
+		}
 	}
 
 	/**
@@ -139,6 +193,8 @@ public class NeedlemanWunschParser extends AbstractParser {
 				apparaiment[j] = ')';
 				j--;
 
+			} else {
+				apparaiment[i] = '.';
 			}
 			i++;
 		}
@@ -254,13 +310,14 @@ public class NeedlemanWunschParser extends AbstractParser {
 			tableChoix[i][j] = recurrenceNeedlemanWunsch(i, j - 1) + INS;
 		} else if (j == 0) {
 			tableChoix[i][j] = recurrenceNeedlemanWunsch(i - 1, j) + DEL;
-		} else if (sequenceADN.getComplementaires(sequence1.charAt(i - 1) + "")
-				.contains("" + sequence2.charAt(j - 1))) {
+		} else if (sequenceADN.getComplementaires(
+				sequence1.substring(i - 1, i + 2 >= sequence1.length() ? sequence1.length() - 1 : i + 2))
+				.contains(sequence2.substring(j - 1, j + 2 >= sequence2.length() ? sequence2.length() - 1 : j + 2))) {
 			tableChoix[i][j] = Math.max(recurrenceNeedlemanWunsch(i - 1, j - 1) + MATCH,
 					Math.max(recurrenceNeedlemanWunsch(i - 1, j) + DEL, recurrenceNeedlemanWunsch(i, j - 1) + INS));
 		} else {
-			tableChoix[i][j] = Math.max(recurrenceNeedlemanWunsch(i - 1, j - 1) + SUB,
-					Math.max(recurrenceNeedlemanWunsch(i - 1, j) + DEL, recurrenceNeedlemanWunsch(i, j - 1) + INS));
+			tableChoix[i][j] = Math
+					.max(recurrenceNeedlemanWunsch(i - 1, j) + DEL, recurrenceNeedlemanWunsch(i, j - 1) + INS);
 		}
 		return tableChoix[i][j];
 	}
