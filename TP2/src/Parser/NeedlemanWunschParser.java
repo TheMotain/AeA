@@ -35,22 +35,15 @@ public class NeedlemanWunschParser extends AbstractParser {
 	 */
 	private Integer tableChoix[][];
 
+	/**
+	 * Séquence d'origine
+	 */
 	private String sequence1;
 
+	/**
+	 * Séquence d'origine reverse
+	 */
 	private String sequence2;
-
-	public NeedlemanWunschParser(final String sequence1, final String sequence2) {
-		super(null);
-		this.sequence1 = sequence1;
-		this.sequence2 = sequence2;
-		tableChoix = new Integer[sequence1.length() + 1][sequence2.length() + 1];
-		//initialisation du tableau
-		for (int i = 0; i < tableChoix.length; i++) {
-			for (int j = 0; j < tableChoix[i].length; j++) {
-				tableChoix[i][j] = null;
-			}
-		}
-	}
 
 	/**
 	 * Constructor
@@ -71,19 +64,143 @@ public class NeedlemanWunschParser extends AbstractParser {
 	}
 
 	public static void main(String[] args) {
-		new NeedlemanWunschParser("ACGGCTAT", "ACTGTAG").runParser();
+		SequenceADN seq = new SequenceADN();
+		seq.setAdnSequence("ACGUAGAAACCCCCGUAAUAUGUGACGCCCACAUAUUACGGGGGUUUCUACGU");
+		new NeedlemanWunschParser(seq).runParser();
 	}
 
 	@Override
-	public boolean[] runParser() {
+	public char[] runParser() {
 		int i = sequence1.length();
 		int j = sequence2.length();
 		recurrenceNeedlemanWunsch(i, j);
 
 		logMatrice();
+		exportMatrice();
 
-		
-		return new boolean[0];
+		InDelSubMatch[] tabRemontee = remontee();
+
+		logMatch(tabRemontee);
+
+		char[] apparaiment = apparaimentNucleotide(tabRemontee);
+
+		logApparaiment(apparaiment);
+
+		return apparaiment;
+	}
+
+	/**
+	 * Permet d'exporter la matrice au format CSV
+	 */
+	private void exportMatrice() {
+	/*	try {
+			PrintWriter buffer = new PrintWriter(new FileWriter(new File("output.csv")));
+			buffer.write(";;");
+			for (int i = 0; i < sequence1.length(); i++) {
+				buffer
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}*/
+	}
+
+	/**
+	 * Affiche l'apparaiment des nucléothides
+	 *
+	 * @param apparaiment
+	 * 		Tableau d'apparaiment
+	 */
+	private void logApparaiment(char[] apparaiment) {
+		int i;
+		for (i = 0; i < apparaiment.length; i++) {
+			System.out.print(apparaiment[i]);
+		}
+		System.out.println();
+	}
+
+	/**
+	 * Permet de réaliser l'apparaiment des nucléotides
+	 *
+	 * @param tabRemontee
+	 * 		Le tableau des match missmatch
+	 * @return Le tableau des apparaiments
+	 */
+	private char[] apparaimentNucleotide(final InDelSubMatch[] tabRemontee) {
+		char[] apparaiment = new char[tabRemontee.length];
+		int i = 0;
+		int j = tabRemontee.length - 1;
+		while (i < j) {
+			if (tabRemontee[i] == InDelSubMatch.MATCH) {
+				apparaiment[i] = '(';
+				while (tabRemontee[j] != InDelSubMatch.MATCH) {
+					apparaiment[j] = '.';
+					j--;
+				}
+				apparaiment[j] = ')';
+				j--;
+
+			}
+			i++;
+		}
+		return apparaiment;
+	}
+
+	/**
+	 * Affiche les match et miss match de la chaine sur elle-même
+	 *
+	 * @param tabRemontee
+	 * 		Tableau de la remontée
+	 */
+	private void logMatch(InDelSubMatch[] tabRemontee) {
+		int i;
+		System.out.println(sequenceADN.getAdnSequence());
+		for (i = 0; i < sequenceADN.getSize(); i++) {
+			if (tabRemontee[i] == InDelSubMatch.MATCH) {
+				System.out.print("|");
+			} else {
+				System.out.print("-");
+			}
+		}
+		System.out.println();
+	}
+
+	/**
+	 * Effectue la remontée du tableau des choix
+	 *
+	 * @return Tableau des insertions deletions substitutions et match
+	 */
+	private InDelSubMatch[] remontee() {
+		InDelSubMatch[] tabRemonte = new InDelSubMatch[sequenceADN.getSize()];
+		int i = tableChoix.length - 1;
+		int j = tableChoix[i].length - 1;
+		while (i != 0 && j != 0) {
+			Integer left = null;
+			Integer leftup = null;
+			InDelSubMatch tmp;
+			int tmp_i = i;
+			int tmp_j = j;
+			if (j > 0) {
+				left = tableChoix[i - 1][j];
+				if (i > 0) {
+					leftup = tableChoix[i - 1][j - 1];
+				}
+			}
+			if (leftup != null && leftup >= left) {
+				tmp = leftup + MATCH == tableChoix[i][j] ? InDelSubMatch.MATCH : InDelSubMatch.SUB;
+				tmp_i--;
+				tmp_j--;
+			} else if (left != null) {
+				tmp = InDelSubMatch.DEL;
+				tmp_i--;
+			} else {
+				tmp = InDelSubMatch.INS;
+				tmp_j--;
+			}
+			tabRemonte[i - 1] = tmp;
+			i = tmp_i;
+			j = tmp_j;
+		}
+		return tabRemonte;
 	}
 
 	/**
@@ -106,7 +223,11 @@ public class NeedlemanWunschParser extends AbstractParser {
 			}
 			for (i = 0; i < sequence1.length() + 1; i++) {
 				if (tableChoix[i][j] != null) {
-					System.out.print("\t" + tableChoix[i][j] + "\t|");
+					if (tableChoix[i][j] <= -100 || tableChoix[i][j] >= 100) {
+						System.out.print("\t" + tableChoix[i][j] + "|");
+					} else {
+						System.out.print("\t" + tableChoix[i][j] + "\t|");
+					}
 				} else {
 					System.out.print("\t\t|");
 				}
@@ -133,7 +254,8 @@ public class NeedlemanWunschParser extends AbstractParser {
 			tableChoix[i][j] = recurrenceNeedlemanWunsch(i, j - 1) + INS;
 		} else if (j == 0) {
 			tableChoix[i][j] = recurrenceNeedlemanWunsch(i - 1, j) + DEL;
-		} else if (sequence1.charAt(i - 1) == sequence2.charAt(j - 1)) {
+		} else if (sequenceADN.getComplementaires(sequence1.charAt(i - 1) + "")
+				.contains("" + sequence2.charAt(j - 1))) {
 			tableChoix[i][j] = Math.max(recurrenceNeedlemanWunsch(i - 1, j - 1) + MATCH,
 					Math.max(recurrenceNeedlemanWunsch(i - 1, j) + DEL, recurrenceNeedlemanWunsch(i, j - 1) + INS));
 		} else {
@@ -141,5 +263,12 @@ public class NeedlemanWunschParser extends AbstractParser {
 					Math.max(recurrenceNeedlemanWunsch(i - 1, j) + DEL, recurrenceNeedlemanWunsch(i, j - 1) + INS));
 		}
 		return tableChoix[i][j];
+	}
+
+	enum InDelSubMatch {
+		INS,
+		DEL,
+		SUB,
+		MATCH;
 	}
 }

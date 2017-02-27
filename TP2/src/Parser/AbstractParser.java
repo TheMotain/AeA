@@ -18,7 +18,6 @@ public abstract class AbstractParser {
 	 * Etablit un tableau de matching des preARM
 	 *
 	 * @return tableau produit
-	 *
 	 */
-	public abstract boolean[] runParser();
+	public abstract char[] runParser();
 }
