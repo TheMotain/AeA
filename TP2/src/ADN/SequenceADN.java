@@ -2,12 +2,16 @@ package ADN;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.Math;
 
 public class SequenceADN {
 	private String adnSequence;
 
 	public SequenceADN() {
 		adnSequence = "";
+	}
+	public SequenceADN(String _adnSequence){
+		this.adnSequence = _adnSequence;
 	}
 
 	public void append(final String line) {
@@ -16,21 +20,18 @@ public class SequenceADN {
 
 	/**
 	 * Renvoi la taille de la séquence d'ADN
-	 *
 	 * @return taille
 	 */
-	public int length() {
+	public int length(){
 		return adnSequence.length();
 	}
 
 	/**
 	 * Renvoi le caractère à la position choisie
-	 *
-	 * @param index
-	 * 		index du caractère
+	 * @param index index du caractère
 	 * @return le caractère
 	 */
-	public char charAt(int index) {
+	public char charAt(int index){
 		return adnSequence.charAt(index);
 	}
 
@@ -118,5 +119,15 @@ public class SequenceADN {
 	 */
 	public int getSize() {
 		return this.adnSequence.length();
+	}
+
+	/**
+	 * Retourne une séquence aléatoire de taille n présente dans la SequenceADN
+	 * @return Sequence de la SequenceADN
+	 */
+	public SequenceADN getRandomSequence(int n) {
+		if (n > this.adnSequence.length()) return new SequenceADN();
+		int i = (int) (Math.random() * this.adnSequence.length() - n + 1);
+		return new SequenceADN(this.adnSequence.substring(i,i + n));
 	}
 }
