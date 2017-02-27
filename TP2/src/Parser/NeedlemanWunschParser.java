@@ -82,6 +82,7 @@ public class NeedlemanWunschParser extends AbstractParser {
 
 		logMatrice();
 
+		
 		return new boolean[0];
 	}
 
@@ -133,7 +134,8 @@ public class NeedlemanWunschParser extends AbstractParser {
 		} else if (j == 0) {
 			tableChoix[i][j] = recurrenceNeedlemanWunsch(i - 1, j) + DEL;
 		} else if (sequence1.charAt(i - 1) == sequence2.charAt(j - 1)) {
-			tableChoix[i][j] = recurrenceNeedlemanWunsch(i - 1, j - 1) + MATCH;
+			tableChoix[i][j] = Math.max(recurrenceNeedlemanWunsch(i - 1, j - 1) + MATCH,
+					Math.max(recurrenceNeedlemanWunsch(i - 1, j) + DEL, recurrenceNeedlemanWunsch(i, j - 1) + INS));
 		} else {
 			tableChoix[i][j] = Math.max(recurrenceNeedlemanWunsch(i - 1, j - 1) + SUB,
 					Math.max(recurrenceNeedlemanWunsch(i - 1, j) + DEL, recurrenceNeedlemanWunsch(i, j - 1) + INS));
