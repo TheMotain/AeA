@@ -9,11 +9,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * Parser selon la methode needleman wunsch
+ * Parser selon la methode Smith & Waterman
  * <p>
  * Created by dalencourt on 13/02/17.
  */
-public class NeedlemanWunschParser extends AbstractParser {
+public class SmithWatermanParser extends AbstractParser {
 
 	/**
 	 * Cout d'une insertion
@@ -38,7 +38,7 @@ public class NeedlemanWunschParser extends AbstractParser {
 	/**
 	 * Stock les calculs de score optimal pour la méthode Needleman Wunsch
 	 */
-	private Integer tableChoix[][];
+	private int tableChoix[][];
 
 	/**
 	 * Séquence d'origine
@@ -57,15 +57,15 @@ public class NeedlemanWunschParser extends AbstractParser {
 	 *
 	 * @param sequenceADN
 	 */
-	public NeedlemanWunschParser(final SequenceADN sequenceADN) {
+	public SmithWatermanParser(final SequenceADN sequenceADN) {
 		super(sequenceADN);
-		tableChoix = new Integer[sequenceADN.getSize() + 1][sequenceADN.getSize() + 1];
+		tableChoix = new int[sequenceADN.getSize()][sequenceADN.getSize()];
 		sequence1 = sequenceADN.getAdnSequence();
 		sequence2 = StringUtils.reverse(sequenceADN.getAdnSequence());
 		//initialisation du tableau
 		for (int i = 0; i < tableChoix.length; i++) {
 			for (int j = 0; j < tableChoix[i].length; j++) {
-				tableChoix[i][j] = null;
+				tableChoix[i][j] = -1;
 			}
 		}
 		tabMatch = new boolean[sequence1.length()];
@@ -76,17 +76,18 @@ public class NeedlemanWunschParser extends AbstractParser {
 
 	public static void main(String[] args) {
 		SequenceADN seq = new SequenceADN();
-		seq.setAdnSequence("ACGUAGAAACCCCCGUAAUAUGUGCACAUAUUACGGGGGUUUCUACGU");
-		//seq.setAdnSequence("ACGUAGGAAAACCCCCGUAAUAUGUGACGCCCACAUAUUACGGGGGUUUCUACGU");
-		new NeedlemanWunschParser(seq).runParser();
+		//		seq.setAdnSequence("AACGU");
+		//		seq.setAdnSequence("ACGUAGAAACCCCCGUAAUAUGUGCACAUAUUACGGGGGUUUCUACGU");
+		//		seq.setAdnSequence("ACGUAGAAACCCCCGUAAUAUGUGACGCCCACAUAUUACGGGGGUUUCUACGU");
+		seq.setAdnSequence("ACGUAGGAAAACCCCCGUAAUAUGUGACGCCCACAUAUUACGGGGGUUUCUACGU");
+		new SmithWatermanParser(seq).runParser();
 	}
 
 	@Override
 	public char[] runParser() {
-		int i = sequence1.length();
-		int j = sequence2.length();
-		recurrenceNeedlemanWunsch(i, j);
-		remplirTabMatch();
+		int i = sequence1.length() - 1;
+		int j = sequence2.length() - 1;
+		recurrenceWmithWaterman(i, j);
 
 		logMatrice();
 		exportMatrice();
@@ -98,33 +99,8 @@ public class NeedlemanWunschParser extends AbstractParser {
 		char[] apparaiment = apparaimentNucleotide(tabRemontee);
 
 		logApparaiment(apparaiment);
-		logTabMatch();
 
 		return apparaiment;
-	}
-
-	private void remplirTabMatch() {
-		int j = 0;
-		for (int i = 0; i < tabMatch.length - 2; i++) {
-			if (sequenceADN.getComplementaires(sequence2.substring(i, i + 3)).contains(sequence1.substring(i, i + 3)
-			)) {
-				tabMatch[i] |= true;
-				tabMatch[i + 1] |= true;
-				tabMatch[i + 2] |= true;
-				j++;
-			}
-		}
-	}
-
-	private void logTabMatch() {
-		for (int i = 0; i < tabMatch.length; i++) {
-			if (tabMatch[i]) {
-				System.out.print("|");
-			} else {
-				System.out.print("-");
-			}
-		}
-		System.out.println();
 	}
 
 	/**
@@ -133,23 +109,15 @@ public class NeedlemanWunschParser extends AbstractParser {
 	private void exportMatrice() {
 		try {
 			PrintWriter buffer = new PrintWriter(new FileWriter(new File("output.csv")));
-			buffer.write(";;");
+			buffer.write(";");
 			for (int i = 0; i < sequence1.length(); i++) {
 				buffer.write(sequence1.charAt(i) + ";");
 			}
 			buffer.write("\n");
-			for (int j = 0; j < sequence2.length() + 1; j++) {
-				if (j == 0) {
-					buffer.write(";");
-				} else {
-					buffer.write(sequence2.charAt(j - 1) + ";");
-				}
-				for (int i = 0; i < sequence1.length() + 1; i++) {
-					if (tableChoix[i][j] != null) {
-						buffer.write(tableChoix[i][j] + ";");
-					} else {
-						buffer.write(";");
-					}
+			for (int j = 0; j < sequence2.length(); j++) {
+				buffer.write(sequence2.charAt(j) + ";");
+				for (int i = 0; i < sequence1.length(); i++) {
+					buffer.write(tableChoix[i][j] + ";");
 				}
 				buffer.write("\n");
 			}
@@ -227,15 +195,25 @@ public class NeedlemanWunschParser extends AbstractParser {
 	 * @return Tableau des insertions deletions substitutions et match
 	 */
 	private InDelSubMatch[] remontee() {
+		int i_index = 0;
+		int j_index = 0;
+		int max_value = 0;
+		for (int i = 0; i < tableChoix.length; i++) {
+			for (int j = 0; j < tableChoix[i].length; j++) {
+				if (tableChoix[i][j] > max_value) {
+					max_value = tableChoix[i][j];
+					i_index = i;
+					j_index = j;
+				}
+			}
+		}
+
 		InDelSubMatch[] tabRemonte = new InDelSubMatch[sequenceADN.getSize()];
-		int i = tableChoix.length - 1;
-		int j = tableChoix[i].length - 1;
-		while (i != 0 && j != 0) {
+		int i = i_index;
+		int j = j_index;
+		while (i >= 0 && j >= 0) {
 			Integer left = null;
 			Integer leftup = null;
-			InDelSubMatch tmp;
-			int tmp_i = i;
-			int tmp_j = j;
 			if (j > 0) {
 				left = tableChoix[i - 1][j];
 				if (i > 0) {
@@ -243,19 +221,24 @@ public class NeedlemanWunschParser extends AbstractParser {
 				}
 			}
 			if (leftup != null && leftup >= left) {
-				tmp = leftup + MATCH == tableChoix[i][j] ? InDelSubMatch.MATCH : InDelSubMatch.SUB;
-				tmp_i--;
-				tmp_j--;
+				tabRemonte[i] = InDelSubMatch.MATCH;
+				if (leftup == 0) {
+					tabRemonte[i - 1] = InDelSubMatch.MATCH;
+					break;
+				}
+				j--;
+				i--;
 			} else if (left != null) {
-				tmp = InDelSubMatch.DEL;
-				tmp_i--;
+				tabRemonte[i] = InDelSubMatch.INS;
+				if (left == 0) {
+					tabRemonte[i - 1] = InDelSubMatch.INS;
+					break;
+				}
+				i--;
 			} else {
-				tmp = InDelSubMatch.INS;
-				tmp_j--;
+				tabRemonte[i] = InDelSubMatch.DEL;
+				j--;
 			}
-			tabRemonte[i - 1] = tmp;
-			i = tmp_i;
-			j = tmp_j;
 		}
 		return tabRemonte;
 	}
@@ -266,27 +249,19 @@ public class NeedlemanWunschParser extends AbstractParser {
 	private void logMatrice() {
 		int i;
 		int j;
-		System.out.print("\t\t|\t\t|");
+		System.out.print("\t\t|");
 		for (i = 0; i < sequence1.length(); i++) {
 			System.out.print("\t" + sequence1.charAt(i) + "\t|");
 		}
 		System.out.println();
 
-		for (j = 0; j < sequence2.length() + 1; j++) {
-			if (j == 0) {
-				System.out.print("\t\t|");
-			} else {
-				System.out.print("\t" + sequence2.charAt(j - 1) + "\t|");
-			}
-			for (i = 0; i < sequence1.length() + 1; i++) {
-				if (tableChoix[i][j] != null) {
-					if (tableChoix[i][j] <= -100 || tableChoix[i][j] >= 100) {
-						System.out.print("\t" + tableChoix[i][j] + "|");
-					} else {
-						System.out.print("\t" + tableChoix[i][j] + "\t|");
-					}
+		for (j = 0; j < sequence2.length(); j++) {
+			System.out.print("\t" + sequence2.charAt(j) + "\t|");
+			for (i = 0; i < sequence1.length(); i++) {
+				if (tableChoix[i][j] <= -100 || tableChoix[i][j] >= 100) {
+					System.out.print("\t" + tableChoix[i][j] + "|");
 				} else {
-					System.out.print("\t\t|");
+					System.out.print("\t" + tableChoix[i][j] + "\t|");
 				}
 			}
 			System.out.println();
@@ -301,24 +276,22 @@ public class NeedlemanWunschParser extends AbstractParser {
 	 * @param j
 	 * 		Position de parcours j
 	 */
-	private int recurrenceNeedlemanWunsch(int i, int j) {
-		if (tableChoix[i][j] != null) {
+	private int recurrenceWmithWaterman(int i, int j) {
+		if (tableChoix[i][j] >= 0) {
 			return tableChoix[i][j];
 		}
 		if (i == 0 && j == 0) {
 			tableChoix[i][j] = 0;
 		} else if (i == 0) {
-			tableChoix[i][j] = recurrenceNeedlemanWunsch(i, j - 1) + INS;
+			tableChoix[i][j] = 0;
 		} else if (j == 0) {
-			tableChoix[i][j] = recurrenceNeedlemanWunsch(i - 1, j) + DEL;
-		} else if (sequenceADN.getComplementaires(
-				sequence1.substring(i - 1, i + 2 >= sequence1.length() ? sequence1.length() - 1 : i + 2))
-				.contains(sequence2.substring(j - 1, j + 2 >= sequence2.length() ? sequence2.length() - 1 : j + 2))) {
-			tableChoix[i][j] = Math.max(recurrenceNeedlemanWunsch(i - 1, j - 1) + MATCH,
-					Math.max(recurrenceNeedlemanWunsch(i - 1, j) + DEL, recurrenceNeedlemanWunsch(i, j - 1) + INS));
+			tableChoix[i][j] = 0;
+		} else if (sequenceADN.getComplementaires(sequence1.charAt(i) + "").contains(sequence2.charAt(j) + "")) {
+			tableChoix[i][j] = Math.max(0, Math.max(recurrenceWmithWaterman(i - 1, j - 1) + MATCH,
+					Math.max(recurrenceWmithWaterman(i - 1, j) + DEL, recurrenceWmithWaterman(i, j - 1) + INS)));
 		} else {
-			tableChoix[i][j] = Math
-					.max(recurrenceNeedlemanWunsch(i - 1, j) + DEL, recurrenceNeedlemanWunsch(i, j - 1) + INS);
+			tableChoix[i][j] = Math.max(0, Math
+					.max(recurrenceWmithWaterman(i - 1, j) + DEL, recurrenceWmithWaterman(i, j - 1) + INS));
 		}
 		return tableChoix[i][j];
 	}
