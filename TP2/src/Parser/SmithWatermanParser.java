@@ -76,10 +76,10 @@ public class SmithWatermanParser extends AbstractParser {
 
 	public static void main(String[] args) {
 		SequenceADN seq = new SequenceADN();
-		//		seq.setAdnSequence("AACGU");
+		seq.setAdnSequence("ACGAAAUUUCGU");
 		//		seq.setAdnSequence("ACGUAGAAACCCCCGUAAUAUGUGCACAUAUUACGGGGGUUUCUACGU");
 		//		seq.setAdnSequence("ACGUAGAAACCCCCGUAAUAUGUGACGCCCACAUAUUACGGGGGUUUCUACGU");
-		seq.setAdnSequence("ACGUAGGAAAACCCCCGUAAUAUGUGACGCCCACAUAUUACGGGGGUUUCUACGU");
+		//		seq.setAdnSequence("ACGUAGGAAAACCCCCGUAAUAUGUGACGCCCACAUAUUACGGGGGUUUCUACGU");
 		new SmithWatermanParser(seq).runParser();
 	}
 

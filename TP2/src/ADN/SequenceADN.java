@@ -2,7 +2,6 @@ package ADN;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.lang.Math;
 
 public class SequenceADN {
 	private String adnSequence;
@@ -10,7 +9,8 @@ public class SequenceADN {
 	public SequenceADN() {
 		adnSequence = "";
 	}
-	public SequenceADN(String _adnSequence){
+
+	public SequenceADN(String _adnSequence) {
 		this.adnSequence = _adnSequence;
 	}
 
@@ -20,18 +20,21 @@ public class SequenceADN {
 
 	/**
 	 * Renvoi la taille de la séquence d'ADN
+	 *
 	 * @return taille
 	 */
-	public int length(){
+	public int length() {
 		return adnSequence.length();
 	}
 
 	/**
 	 * Renvoi le caractère à la position choisie
-	 * @param index index du caractère
+	 *
+	 * @param index
+	 * 		index du caractère
 	 * @return le caractère
 	 */
-	public char charAt(int index){
+	public char charAt(int index) {
 		return adnSequence.charAt(index);
 	}
 
@@ -123,11 +126,36 @@ public class SequenceADN {
 
 	/**
 	 * Retourne une séquence aléatoire de taille n présente dans la SequenceADN
+	 *
 	 * @return Sequence de la SequenceADN
 	 */
 	public SequenceADN getRandomSequence(int n) {
-		if (n > this.adnSequence.length()) return new SequenceADN();
+		if (n > this.adnSequence.length()) {
+			return new SequenceADN();
+		}
 		int i = (int) (Math.random() * this.adnSequence.length() - n + 1);
-		return new SequenceADN(this.adnSequence.substring(i,i + n));
+		return new SequenceADN(this.adnSequence.substring(i, i + n));
+	}
+
+	/**
+	 * Permet de realiser une sous séquence de la séquence d'ADN
+	 *
+	 * @param i
+	 * 		debut de la sous séquence
+	 * @param j
+	 * 		fin de la sous séquence
+	 */
+	public String substring(int i, int j) {
+		if (i < 0) {
+			i = 0;
+		}
+		if (i > this.length()) {
+			return "";
+		}
+		if (j >= this.length()) {
+			return this.adnSequence.substring(i);
+		} else {
+			return this.adnSequence.substring(i, j);
+		}
 	}
 }
