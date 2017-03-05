@@ -115,7 +115,8 @@ public class NeedlemanWunschAlternativParser extends AbstractParser {
 		int j_pos = j_pos_param;
 		int i_pos = i_pos_param;
 		char[] apparaiment = apparaiment_param;
-		int countmiss = 0;
+		int countmatchopen = 0;
+		int countmatchclose = 0;
 		while (i <= j) {
 			if (i == j) {
 				apparaiment[i] = '.';
@@ -124,22 +125,42 @@ public class NeedlemanWunschAlternativParser extends AbstractParser {
 			Integer top = tableChoix[i_pos - 1][j_pos];
 			Integer left = tableChoix[i_pos][j_pos - 1];
 			Integer topleft = tableChoix[i_pos - 1][j_pos - 1];
-			if (null != topleft && topleft == tableChoix[i_pos][j_pos] - MATCH &&
-					(topleft < 0 || ((top == null || topleft >= top) && (left == null || topleft >= left)))) {
-				j_pos--;
-				i_pos--;
-				apparaiment[i] = '(';
-				apparaiment[j] = ')';
-				i++;
-				j--;
+			//			if (null != topleft && topleft == tableChoix[i_pos][j_pos] - MATCH &&
+			//					(topleft < 0 || ((top == null || topleft >= top) && (left == null || topleft >= left))
+			// )) {
+			if (null != topleft && topleft == tableChoix[i_pos][j_pos] - MATCH && topleft >= top && topleft >= left) {
+				boolean matchableOpen = matchable(i_pos - 1, j_pos - 1, countmatchopen + 1);
+				boolean matchableClose = matchable(i_pos - 1, j_pos - 1, countmatchclose + 1);
+				if (!matchableOpen) {
+					i_pos--;
+					apparaiment[i] = '.';
+					i++;
+					countmatchclose = 0;
+				} else if (!matchableClose) {
+					j_pos--;
+					apparaiment[j] = '.';
+					j--;
+					countmatchclose = 0;
+				} else {
+					j_pos--;
+					i_pos--;
+					apparaiment[i] = '(';
+					apparaiment[j] = ')';
+					i++;
+					j--;
+					countmatchopen++;
+					countmatchclose++;
+				}
 			} else if (left != null && (top == null || left > top)) {
 				j_pos--;
 				apparaiment[j] = '.';
 				j--;
+				countmatchclose = 0;
 			} else {//if (top != null && (left == null || top > left)) {
 				i_pos--;
 				apparaiment[i] = '.';
 				i++;
+				countmatchopen = 0;
 			} /*else if (top != null && left != null && top == left) {
 				char[] app1 = apparaiment;
 				app1[j] = '.';
@@ -158,6 +179,19 @@ public class NeedlemanWunschAlternativParser extends AbstractParser {
 			}*/
 		}
 		return apparaiment;
+	}
+
+	private boolean matchable(final int i_pos, final int j_pos, final int countmatchclose) {
+		if (countmatchclose >= 3) {
+			return true;
+		}
+		if (tableChoix[i_pos - 1][j_pos - 1] == null ||
+				tableChoix[i_pos - 1][j_pos - 1] + MATCH != tableChoix[i_pos][j_pos] ||
+				tableChoix[i_pos - 1][j_pos] > tableChoix[i_pos - 1][j_pos - 1] ||
+				tableChoix[i_pos][j_pos - 1] > tableChoix[i_pos - 1][j_pos - 1]) {
+			return false;
+		}
+		return matchable(i_pos - 1, j_pos - 1, countmatchclose + 1);
 	}
 
 	private boolean valide(char[] apparaiment) {
