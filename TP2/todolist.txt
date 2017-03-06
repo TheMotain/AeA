@@ -1,0 +1,9 @@
+pré-micro
+
+for(i = 10 : 15)
+    for(j = 20 : 23)
+        miARM=prendre miARM(i-1,i+j-1)
+        arm_m -> fenêtre déplaçable
+        comp(0-7,arm_m et pre_micro) -> exact
+        if(match -> envoi SmithWatermanParser)
+            résultat
