@@ -1,7 +1,6 @@
 package Parser;
 
 import ADN.SequenceADN;
-import Utils.StringUtils;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -13,7 +12,7 @@ import java.io.PrintWriter;
  * <p>
  * Created by dalencourt on 13/02/17.
  */
-public class SmithWatermanParser extends AbstractParser {
+public class SmithWatermanParser {
 
 	/**
 	 * Cout d'une insertion
@@ -43,45 +42,33 @@ public class SmithWatermanParser extends AbstractParser {
 	/**
 	 * Séquence d'origine
 	 */
-	private String sequence1;
+	private SequenceADN arnMessage;
 
 	/**
 	 * Séquence d'origine reverse
 	 */
-	private String sequence2;
-
-	private boolean[] tabMatch;
+	private SequenceADN micreARN;
 
 	/**
-	 * Constructor
+	 * constructeur
 	 *
-	 * @param sequenceADN
+	 * @param arnMessage
+	 * 		ARN messagé
+	 * @param microARN
+	 * 		Pré-micro ARN
 	 */
-	public SmithWatermanParser(final SequenceADN sequenceADN) {
-		super(sequenceADN);
-		tableChoix = new int[sequenceADN.getSize()][sequenceADN.getSize()];
-		sequence1 = sequenceADN.getAdnSequence();
-		sequence2 = StringUtils.reverse(sequenceADN.getAdnSequence());
-		//initialisation du tableau
-		for (int i = 0; i < tableChoix.length; i++) {
-			for (int j = 0; j < tableChoix[i].length; j++) {
-				tableChoix[i][j] = -1;
-			}
-		}
-		tabMatch = new boolean[sequence1.length()];
-		for (int i = 0; i < tabMatch.length; i++) {
-			tabMatch[i] = false;
-		}
+	public SmithWatermanParser(SequenceADN arnMessage, SequenceADN microARN) {
+		this.arnMessage = arnMessage;
+		this.micreARN = microARN;
+		this.tableChoix = new int[arnMessage.length()][microARN.length()];
 	}
 
-	@Override
 	public char[] runParser() {
-		int i = sequence1.length() - 1;
-		int j = sequence2.length() - 1;
+		int i = arnMessage.length() - 1;
+		int j = micreARN.length() - 1;
 		recurrenceWmithWaterman(i, j);
 
 		logMatrice();
-		exportMatrice();
 
 		InDelSubMatch[] tabRemontee = remontee();
 
@@ -97,13 +84,13 @@ public class SmithWatermanParser extends AbstractParser {
 		try {
 			PrintWriter buffer = new PrintWriter(new FileWriter(new File("output.csv")));
 			buffer.write(";");
-			for (int i = 0; i < sequence1.length(); i++) {
-				buffer.write(sequence1.charAt(i) + ";");
+			for (int i = 0; i < arnMessage.length(); i++) {
+				buffer.write(arnMessage.charAt(i) + ";");
 			}
 			buffer.write("\n");
-			for (int j = 0; j < sequence2.length(); j++) {
-				buffer.write(sequence2.charAt(j) + ";");
-				for (int i = 0; i < sequence1.length(); i++) {
+			for (int j = 0; j < micreARN.length(); j++) {
+				buffer.write(micreARN.charAt(j) + ";");
+				for (int i = 0; i < arnMessage.length(); i++) {
 					buffer.write(tableChoix[i][j] + ";");
 				}
 				buffer.write("\n");
