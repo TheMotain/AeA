@@ -74,15 +74,6 @@ public class SmithWatermanParser extends AbstractParser {
 		}
 	}
 
-	public static void main(String[] args) {
-		SequenceADN seq = new SequenceADN();
-		seq.setAdnSequence("ACGAAAUUUCGU");
-		//		seq.setAdnSequence("ACGUAGAAACCCCCGUAAUAUGUGCACAUAUUACGGGGGUUUCUACGU");
-		//		seq.setAdnSequence("ACGUAGAAACCCCCGUAAUAUGUGACGCCCACAUAUUACGGGGGUUUCUACGU");
-		//		seq.setAdnSequence("ACGUAGGAAAACCCCCGUAAUAUGUGACGCCCACAUAUUACGGGGGUUUCUACGU");
-		new SmithWatermanParser(seq).runParser();
-	}
-
 	@Override
 	public char[] runParser() {
 		int i = sequence1.length() - 1;
@@ -96,11 +87,7 @@ public class SmithWatermanParser extends AbstractParser {
 
 		logMatch(tabRemontee);
 
-		char[] apparaiment = apparaimentNucleotide(tabRemontee);
-
-		logApparaiment(apparaiment);
-
-		return apparaiment;
+		return null;
 	}
 
 	/**
@@ -125,49 +112,6 @@ public class SmithWatermanParser extends AbstractParser {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	/**
-	 * Affiche l'apparaiment des nucléothides
-	 *
-	 * @param apparaiment
-	 * 		Tableau d'apparaiment
-	 */
-	private void logApparaiment(char[] apparaiment) {
-		int i;
-		for (i = 0; i < apparaiment.length; i++) {
-			System.out.print(apparaiment[i]);
-		}
-		System.out.println();
-	}
-
-	/**
-	 * Permet de réaliser l'apparaiment des nucléotides
-	 *
-	 * @param tabRemontee
-	 * 		Le tableau des match missmatch
-	 * @return Le tableau des apparaiments
-	 */
-	private char[] apparaimentNucleotide(final InDelSubMatch[] tabRemontee) {
-		char[] apparaiment = new char[tabRemontee.length];
-		int i = 0;
-		int j = tabRemontee.length - 1;
-		while (i < j) {
-			if (tabRemontee[i] == InDelSubMatch.MATCH) {
-				apparaiment[i] = '(';
-				while (tabRemontee[j] != InDelSubMatch.MATCH) {
-					apparaiment[j] = '.';
-					j--;
-				}
-				apparaiment[j] = ')';
-				j--;
-
-			} else {
-				apparaiment[i] = '.';
-			}
-			i++;
-		}
-		return apparaiment;
 	}
 
 	/**
