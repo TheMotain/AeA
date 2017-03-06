@@ -107,49 +107,7 @@ public class NeedlemanWunschAlternativParser extends AbstractParser {
 		}
 		System.out.println();
 		System.out.println(valide(apparaiment));
-		return null;
-	}
-
-	private char[] apparaimentAlternatif(final int i, final int j, final int i_pos, final int j_pos,
-	                                     final char[] apparaiment_param) {
-		char[] appariment = apparaiment_param;
-		if (i > j) {
-			return apparaiment_param;
-		}
-		if (i == j) {
-			appariment[i] = '.';
-			return appariment;
-		}
-		Integer top = tableChoix[i_pos - 1][j_pos];
-		Integer left = tableChoix[i_pos][j_pos - 1];
-		Integer topLeft = tableChoix[i_pos - 1][j_pos - 1];
-		char[] appTop = null;
-		char[] appLeft = null;
-		char[] appTopLeft = null;
-		if (topLeft != null && tableChoix[i_pos][j_pos] == topLeft + MATCH) {
-			appTopLeft = appariment;
-			appTopLeft[i] = '(';
-			appTopLeft[j] = ')';
-			appTopLeft = apparaimentAlternatif(i + 1, j - 1, i_pos - 1, i_pos - 1, appTopLeft);
-		}
-		if (top != null) {
-			appTop = appariment;
-			appTop[i] = '.';
-			appTop = apparaimentAlternatif(i + 1, j, i_pos - 1, j_pos, appTop);
-		}
-		if (left != null) {
-			appLeft = appariment;
-			appLeft[j] = '.';
-			appLeft = apparaimentAlternatif(i, j - 1, i_pos, j_pos - 1, appLeft);
-		}
-		if (appTopLeft != null && valide(appTopLeft)) {
-			return appTopLeft;
-		} else if (appTop != null && valide(appTop)) {
-			return appTop;
-		} else if (appLeft != null && valide(appLeft)) {
-			return appLeft;
-		}
-		return apparaiment_param;
+		return apparaiment;
 	}
 
 	private char[] apparaiment(int i_param, int j_param, int j_pos_param, int i_pos_param, char[] apparaiment_param,
@@ -196,7 +154,7 @@ public class NeedlemanWunschAlternativParser extends AbstractParser {
 					countmatchopen++;
 					countmatchclose++;
 				}
-			} else if (left != null && top != null && left == top) {
+			/*} else if (left != null && top != null && left == top) {
 				char[] app1 = apparaiment;
 				app1[i] = '.';
 				app1 = apparaiment(i + 1, j, j_pos, i_pos - 1, app1, 0, countmatchclose);
@@ -207,7 +165,7 @@ public class NeedlemanWunschAlternativParser extends AbstractParser {
 					return app1;
 				} else {
 					return app2;
-				}
+				}*/
 			} else if (left != null && (top == null || left > top)) {
 				j_pos--;
 				apparaiment[j] = '.';
