@@ -154,7 +154,7 @@ public class NeedlemanWunschAlternativParser extends AbstractParser {
 					countmatchopen++;
 					countmatchclose++;
 				}
-			/*} else if (left != null && top != null && left == top) {
+			} else if (left != null && top != null && left == top) {
 				char[] app1 = apparaiment;
 				app1[i] = '.';
 				app1 = apparaiment(i + 1, j, j_pos, i_pos - 1, app1, 0, countmatchclose);
@@ -165,7 +165,7 @@ public class NeedlemanWunschAlternativParser extends AbstractParser {
 					return app1;
 				} else {
 					return app2;
-				}*/
+				}
 			} else if (left != null && (top == null || left > top)) {
 				j_pos--;
 				apparaiment[j] = '.';
@@ -246,8 +246,6 @@ public class NeedlemanWunschAlternativParser extends AbstractParser {
 			} else if (apparaiment[i] == ')') {
 				if (!match) {
 					if (count > 3 && !matchopen) {
-						return false;
-					} else if (matchopen && count > 8) {
 						return false;
 					}
 					count = 0;
