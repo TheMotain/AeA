@@ -10,7 +10,7 @@ public class SequenceADN {
 		adnSequence = "";
 	}
 
-	public SequenceADN(String _adnSequence) {
+	public SequenceADN(final String _adnSequence) {
 		this.adnSequence = _adnSequence;
 	}
 
@@ -34,7 +34,7 @@ public class SequenceADN {
 	 * 		index du caractère
 	 * @return le caractère
 	 */
-	public char charAt(int index) {
+	public char charAt(final int index) {
 		return adnSequence.charAt(index);
 	}
 
@@ -45,12 +45,12 @@ public class SequenceADN {
 	 * 		séquence d'origine
 	 * @return complémentaire
 	 */
-	public List<String> getComplementaires(String word) {
+	public List<String> getComplementaires(final String word) {
 		List<String> outputs = new ArrayList<>();
 		List<String> l1;
 		List<String> l2;
 		outputs.add("");
-		for (char c : word.toCharArray()) {
+		for (final char c : word.toCharArray()) {
 			switch (c) {
 				case 'A':
 					outputs = ajouter(outputs, 'U');
@@ -62,7 +62,11 @@ public class SequenceADN {
 					outputs = ajouter(outputs, 'G');
 					break;
 				case 'G':
-					outputs = ajouter(outputs, 'C');
+					l1 = ajouter(outputs, 'U');
+					l2 = ajouter(outputs, 'C');
+					outputs.clear();
+					outputs.addAll(l1);
+					outputs.addAll(l2);
 					break;
 				case 'U':
 					l1 = ajouter(outputs, 'A');
@@ -88,8 +92,8 @@ public class SequenceADN {
 	 * @return nouvelle liste de complémentaires
 	 */
 	private List<String> ajouter(final List<String> inputs, final char a) {
-		List<String> outputs = new ArrayList<>();
-		for (String input : inputs) {
+		final List<String> outputs = new ArrayList<>();
+		for (final String input : inputs) {
 			outputs.add(input.concat(String.valueOf(a)));
 		}
 		return outputs;
@@ -129,11 +133,11 @@ public class SequenceADN {
 	 *
 	 * @return Sequence de la SequenceADN
 	 */
-	public SequenceADN getRandomSequence(int n) {
+	public SequenceADN getRandomSequence(final int n) {
 		if (n > this.adnSequence.length()) {
 			return new SequenceADN();
 		}
-		int i = (int) (Math.random() * this.adnSequence.length() - n + 1);
+		final int i = (int) (Math.random() * this.adnSequence.length() - n + 1);
 		return new SequenceADN(this.adnSequence.substring(i, i + n));
 	}
 
@@ -144,8 +148,9 @@ public class SequenceADN {
 	 * 		debut de la sous séquence
 	 * @param j
 	 * 		fin de la sous séquence
+	 * @return la sous séquence créée
 	 */
-	public String substring(int i, int j) {
+	public String substring(int i, final int j) {
 		if (i < 0) {
 			i = 0;
 		}
@@ -157,5 +162,16 @@ public class SequenceADN {
 		} else {
 			return this.adnSequence.substring(i, j);
 		}
+	}
+
+	/**
+	 * Permet de realiser une sous séquence de la séquence d'ADN
+	 *
+	 * @param i
+	 * 		debut de la sous séquence
+	 * @return la sous séquence céée
+	 */
+	public String substring(final int i) {
+		return adnSequence.substring(i);
 	}
 }

@@ -8,32 +8,27 @@ import Utils.StringUtils;
  * <p>
  * Created by dalencourt on 13/02/17.
  */
-public class NeedlemanWunschAlternativParser extends AbstractParser {
-
+public class NeedlemanWunschAlternativParser {
 	/**
 	 * Cout d'une insertion
 	 */
 	private static final int INS = -2;
-
 	/**
 	 * Cout d'une délétion
 	 */
 	private static final int DEL = -2;
-
-	/**
-	 * Cout d'une substitution
-	 */
-	private static final int SUB = -1;
-
 	/**
 	 * Gain d'un match
 	 */
 	private static final int MATCH = 2;
-
+	/**
+	 * Séquence de nucléotides à apparailler
+	 */
+	private final SequenceADN sequenceADN;
 	/**
 	 * Stock les calculs de score optimal pour la méthode Needleman Wunsch
 	 */
-	private Integer tableChoix[][];
+	private final Integer[][] tableChoix;
 
 	/**
 	 * Constructor
@@ -41,8 +36,8 @@ public class NeedlemanWunschAlternativParser extends AbstractParser {
 	 * @param sequenceADN
 	 */
 	public NeedlemanWunschAlternativParser(final SequenceADN sequenceADN) {
-		super(sequenceADN);
-		tableChoix = new Integer[sequenceADN.getSize() + 1][sequenceADN.getSize() + 1];
+		this.sequenceADN = sequenceADN;
+		this.tableChoix = new Integer[sequenceADN.getSize() + 1][sequenceADN.getSize() + 1];
 		//initialisation du tableau
 		for (int i = 0; i < tableChoix.length; i++) {
 			for (int j = 0; j < tableChoix[i].length; j++) {
@@ -56,8 +51,8 @@ public class NeedlemanWunschAlternativParser extends AbstractParser {
 		}
 	}
 
-	public static void main(String[] args) {
-		SequenceADN seq = new SequenceADN();
+	public static void main(final String[] args) {
+		final SequenceADN seq = new SequenceADN();
 		//		seq.setAdnSequence("ACGUA");
 		//		seq.setAdnSequence("ACGUAGAAACCCCCGUAAUAUGUGCACAUAUUACGGGGGUUUCUACGU");
 		//		seq.setAdnSequence("ACGUAGAAACCCCCGUAAUAUGUGACGCCCACAUAUUACGGGGGUUUCUACGU");
@@ -67,7 +62,6 @@ public class NeedlemanWunschAlternativParser extends AbstractParser {
 		new NeedlemanWunschAlternativParser(seq).runParser();
 	}
 
-	@Override
 	public char[] runParser() {
 		int i = 0;
 		int j = sequenceADN.length() - 1;
@@ -93,8 +87,8 @@ public class NeedlemanWunschAlternativParser extends AbstractParser {
 		}
 		i = 0;
 		j = sequenceADN.length() - 1;
-		int j_pos = tableChoix.length - 1;
-		int i_pos = tableChoix.length - 1;
+		final int j_pos = tableChoix.length - 1;
+		final int i_pos = tableChoix.length - 1;
 		char[] apparaiment = new char[sequenceADN.length()];
 		for (int n = 0; n < apparaiment.length; n++) {
 			apparaiment[n] = 'X';
@@ -110,13 +104,14 @@ public class NeedlemanWunschAlternativParser extends AbstractParser {
 		return apparaiment;
 	}
 
-	private char[] apparaiment(int i_param, int j_param, int j_pos_param, int i_pos_param, char[] apparaiment_param,
-	                           int countmatchopen_param, int countmatchclose_param) {
+	private char[] apparaiment(final int i_param, final int j_param, final int j_pos_param, final int i_pos_param,
+	                           final char[] apparaiment_param,
+	                           final int countmatchopen_param, final int countmatchclose_param) {
 		int i = i_param;
 		int j = j_param;
 		int j_pos = j_pos_param;
 		int i_pos = i_pos_param;
-		char[] apparaiment = apparaiment_param;
+		final char[] apparaiment = apparaiment_param;
 		int countmatchopen = countmatchopen_param;
 		int countmatchclose = countmatchclose_param;
 		while (i <= j) {
@@ -124,16 +119,16 @@ public class NeedlemanWunschAlternativParser extends AbstractParser {
 				apparaiment[i] = '.';
 				break;
 			}
-			Integer top = tableChoix[i_pos - 1][j_pos];
-			Integer left = tableChoix[i_pos][j_pos - 1];
-			Integer topleft = tableChoix[i_pos - 1][j_pos - 1];
+			final Integer top = tableChoix[i_pos - 1][j_pos];
+			final Integer left = tableChoix[i_pos][j_pos - 1];
+			final Integer topleft = tableChoix[i_pos - 1][j_pos - 1];
 			if (null != topleft && topleft == tableChoix[i_pos][j_pos] - MATCH &&
 					(topleft < 0 || ((top == null || topleft >= top) && (left == null || topleft >= left))
 					)) {
 				//			if (null != topleft && topleft == tableChoix[i_pos][j_pos] - MATCH && topleft >= top &&
 				// topleft >= left) {
-				boolean matchableOpen = matchable(i_pos - 1, j_pos - 1, countmatchopen + 1);
-				boolean matchableClose = matchable(i_pos - 1, j_pos - 1, countmatchclose + 1);
+				final boolean matchableOpen = matchable(i_pos - 1, j_pos - 1, countmatchopen + 1);
+				final boolean matchableClose = matchable(i_pos - 1, j_pos - 1, countmatchclose + 1);
 				if (!matchableOpen) {
 					i_pos--;
 					apparaiment[i] = '.';
@@ -154,7 +149,7 @@ public class NeedlemanWunschAlternativParser extends AbstractParser {
 					countmatchopen++;
 					countmatchclose++;
 				}
-			} else if (left != null && top != null && left == top) {
+			} /*else if (left != null && top != null && left == top) {
 				char[] app1 = apparaiment;
 				app1[i] = '.';
 				app1 = apparaiment(i + 1, j, j_pos, i_pos - 1, app1, 0, countmatchclose);
@@ -166,7 +161,7 @@ public class NeedlemanWunschAlternativParser extends AbstractParser {
 				} else {
 					return app2;
 				}
-			} else if (left != null && (top == null || left > top)) {
+			}*/ else if (left != null && (top == null || left > top)) {
 				j_pos--;
 				apparaiment[j] = '.';
 				j--;
@@ -209,7 +204,7 @@ public class NeedlemanWunschAlternativParser extends AbstractParser {
 		return matchable(i_pos - 1, j_pos - 1, countmatch + 1);
 	}
 
-	private boolean valide(char[] apparaiment) {
+	private boolean valide(final char[] apparaiment) {
 		int open = 0;
 		int close = 0;
 		for (int i = 0; i < apparaiment.length; i++) {
@@ -268,9 +263,9 @@ public class NeedlemanWunschAlternativParser extends AbstractParser {
 	 * @param j
 	 * 		Position de parcours j
 	 */
-	private int recurrenceNeedlemanWunsch(int i, int j) {
-		int i_index = sequenceADN.length() - i;
-		int j_index = j + 1;
+	private int recurrenceNeedlemanWunsch(final int i, final int j) {
+		final int i_index = sequenceADN.length() - i;
+		final int j_index = j + 1;
 		if (tableChoix[i_index][j_index] != null) {
 			return tableChoix[i_index][j_index];
 		}
@@ -290,18 +285,18 @@ public class NeedlemanWunschAlternativParser extends AbstractParser {
 		return tableChoix[i_index][j_index];
 	}
 
-	private boolean match(int i, int j) {
+	private boolean match(final int i, final int j) {
 		String subsequence1 = StringUtils.reverse(sequenceADN.substring(i - 2, i + 1));
 		String subsequence2 = sequenceADN.substring(j, j + 3);
-		boolean less2 = (subsequence1.length() == 3 && subsequence2.length() == 3) &&
+		final boolean less2 = (subsequence1.length() == 3 && subsequence2.length() == 3) &&
 				sequenceADN.getComplementaires(subsequence1).contains(subsequence2);
 		subsequence1 = StringUtils.reverse(sequenceADN.substring(i - 1, i + 2));
 		subsequence2 = sequenceADN.substring(j - 1, j + 2);
-		boolean less1 = (subsequence1.length() == 3 && subsequence2.length() == 3) &&
+		final boolean less1 = (subsequence1.length() == 3 && subsequence2.length() == 3) &&
 				sequenceADN.getComplementaires(subsequence1).contains(subsequence2);
 		subsequence1 = StringUtils.reverse(sequenceADN.substring(i, i + 3));
 		subsequence2 = sequenceADN.substring(j - 2, j + 1);
-		boolean less0 = (subsequence1.length() == 3 && subsequence2.length() == 3) &&
+		final boolean less0 = (subsequence1.length() == 3 && subsequence2.length() == 3) &&
 				sequenceADN.getComplementaires(subsequence1).contains(subsequence2);
 		return less2 || less1 || less0;
 	}
