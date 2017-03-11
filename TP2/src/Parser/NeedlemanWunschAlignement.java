@@ -6,11 +6,12 @@ import javax.management.BadStringOperationException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.ListIterator;
 
 /**
  * Parser selon la methode needleman wunsch
- * <p>
+ * <br/>
+ * Permet la réalisation de la meilleur hybridation possible
+ * <br/>
  * Created by dalencourt on 13/02/17.
  */
 public class NeedlemanWunschAlignement {
@@ -73,7 +74,6 @@ public class NeedlemanWunschAlignement {
         String subArnMessaFinal = null;
         int finalIndex = -1;
         int scoreMax = -100;
-        Integer[][] tableCoutsFinal = null;
         List<InDelSubMatch> alignementFinal = null;
         // évaluation des différents apparaiments possibles
         for (final Integer idx : startPoints) {
@@ -96,7 +96,6 @@ public class NeedlemanWunschAlignement {
                     Collections.frequency(alignement, InDelSubMatch.INS) * -1 +
                     Collections.frequency(alignement, InDelSubMatch.DEL) * -1 + 14;
             if (score > scoreMax) {
-                tableCoutsFinal = tableCouts;
                 subArnMessaFinal = subArnMessa;
                 scoreMax = score;
                 finalIndex = idx;
@@ -104,12 +103,11 @@ public class NeedlemanWunschAlignement {
             }
         }
         if (subArnMessaFinal != null) {
-            final String[] align = reconstruction(alignementFinal, subArnMessaFinal, subMicroARN, scoreMax);
+            final String[] align = reconstruction(alignementFinal, subArnMessaFinal, subMicroARN);
             align[0] = arnMessage.substring(finalIndex, finalIndex + 7) + align[0];
             align[1] = "|||||||" + align[1];
             align[2] = microARN.substring(0, 7) + align[2];
-            final Object[] output = new Object[]{align[0], align[1], align[2], scoreMax};
-            return output;
+            return new Object[]{align[0], align[1], align[2], scoreMax};
         } else {
             return new Object[]{"", "", "", 0};
         }
@@ -128,16 +126,17 @@ public class NeedlemanWunschAlignement {
      * @return L'alignement réalisé
      */
     private String[] reconstruction(final List<InDelSubMatch> alignement, final String subArnMessaFinal,
-                                    final String subMicroARN, final int score) {
+                                    final String subMicroARN) {
         String alignSubArnMessa = "";
         String match = "";
         String alignSubMicroARN = "";
         int i = 0;
         int j = 0;
 
-        final ListIterator<InDelSubMatch> it = alignement.listIterator();
-        while (it.hasNext()) {
-            switch (it.next()) {
+        for (final InDelSubMatch anAlignement : alignement) {
+            // Si tous les nucléotides du micro arn ont été lut on arrête
+            if (j >= subMicroARN.length()) { break; }
+            switch (anAlignement) {
                 case INS:
                     alignSubArnMessa += '-';
                     alignSubMicroARN += subMicroARN.charAt(j);
@@ -165,12 +164,6 @@ public class NeedlemanWunschAlignement {
                     j++;
                     match += 'X';
                     break;
-            }
-        }
-        if (i < subMicroARN.length()) {
-            alignSubMicroARN += subMicroARN.substring(i);
-            for (; i < subMicroARN.length(); i++) {
-                alignSubArnMessa += '-';
             }
         }
         return new String[]{alignSubArnMessa, match, alignSubMicroARN};
