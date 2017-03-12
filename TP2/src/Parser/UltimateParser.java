@@ -25,9 +25,9 @@ public class UltimateParser {
 //        seq.setAdnSequence("ACGCGUA");
 //        seq.setAdnSequence("ACGUAGAAACCCCCGUAAUAUGUGCACAUAUUACGGGGGUUUCUACGU");
 //        seq.setAdnSequence("ACGUAGAAACCCCCGUAAUAUGUGACGCCCACAUAUUACGGGGGUUUCUACGU");
-//        seq.setAdnSequence("ACGUAGCCAAACCCCCGUAAUAUGUGACGCCCACAUAUUACGGGGGUUUCUACGU");
-        seq.setAdnSequence(
-                "UGCUUCCGGCCUGUUCCCUGAGACCUCAAGUGUGAGUGUACUAUUGAUGCUUCACACCUGGGCUCUCCGGGUACCAGGACGGUUUGAGCA");
+        seq.setAdnSequence("ACGUAGCCAAACCCCCGUAAUAUGUGACGCCCACAUAUUACGGGGGUUUCUACGU");
+//        seq.setAdnSequence(
+//                "UGCUUCCGGCCUGUUCCCUGAGACCUCAAGUGUGAGUGUACUAUUGAUGCUUCACACCUGGGCUCUCCGGGUACCAGGACGGUUUGAGCA");
         new UltimateParser(seq).runParser();
     }
 
@@ -71,7 +71,11 @@ public class UltimateParser {
                 }
             }
             if (notcontains) {
+//                if (apparaimentInitial[pos_i]) {
+//                    pos_j--;
+//                }
                 pos_i++;
+//                if (getNbGapConseqI(pos_i, apparaimentInitial) <= 3) { pos_i++; } else { pos_j--; }
             }
         }
 
@@ -112,5 +116,13 @@ public class UltimateParser {
             }
         }
         return output;
+    }
+
+    private int getNbGapConseqI(final int i, final boolean[] apparaiment) {
+        int count = 0;
+        for (int j = i; j >= 0 && !apparaiment[j]; j--) {
+            count++;
+        }
+        return count;
     }
 }
