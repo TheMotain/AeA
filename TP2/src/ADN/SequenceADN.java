@@ -21,6 +21,7 @@ public class SequenceADN {
 	/**
 	 * Renvoi la taille de la séquence d'ADN
 	 *
+	 *
 	 * @return taille
 	 */
 	public int length() {
