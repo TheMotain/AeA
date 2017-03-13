@@ -15,6 +15,15 @@ public class Graphe {
     private boolean dejaVu[];
 
     /**
+     * Getter de l'attribut {@link Graphe#mot}
+     *
+     * @return Table des mots
+     */
+    public String[] getMot() {
+        return mot;
+    }
+
+    /**
      * Constructeur
      * @param lesMots Liste des mots à mettre dans le graphe
      */
