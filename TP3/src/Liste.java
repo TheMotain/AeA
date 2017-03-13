@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Représente une liste d'arrètes de destination pour un graphe orienté <br/>
  *
@@ -6,11 +9,11 @@
 public class Liste {
     private int noeud;
 
-    private Liste nextNoeud;
+    private List<Integer> nextNoeuds;
 
     public Liste(final int noeud) {
         this.noeud = noeud;
-        this.nextNoeud = null;
+        this.nextNoeuds = new ArrayList<>();
     }
 
     public int getNoeud() {
@@ -21,11 +24,7 @@ public class Liste {
         this.noeud = noeud;
     }
 
-    public Liste getNextNoeud() {
-        return nextNoeud;
-    }
-
-    public void setNextNoeud(final Liste nextNoeud) {
-        this.nextNoeud = nextNoeud;
+    public List<Integer> getNextNoeuds() {
+        return nextNoeuds;
     }
 }
