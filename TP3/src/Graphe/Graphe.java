@@ -23,10 +23,25 @@ public class Graphe {
     }
 
     public void setSuccesseur(int idx, Successeur s) {
-
+        listeSucc[idx] = s;
     }
 
     public int getIndex(String str) {
         return 0;
+    }
+
+    @Override
+    public String toString() {
+        String output = "";
+        for (int i = 0; i < nbMot; i++) {
+            output += i + " : " + mot[i] + " / successeurs : ";
+            Successeur s = listeSucc[i];
+            while (s != null) {
+                output += s.getNoeud() + " - ";
+                s = s.getNextNoeuds();
+            }
+            output += "\n";
+        }
+        return output;
     }
 }
