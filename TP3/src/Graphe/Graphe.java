@@ -12,16 +12,33 @@ public class Graphe {
 
     private int nbMot = 0;
 
+    private boolean dejaVu[];
+
+    /**
+     * Constructeur
+     * @param lesMots Liste des mots à mettre dans le graphe
+     */
     public Graphe(String[] lesMots){
         mot = lesMots.clone();
         nbMot = lesMots.length;
         listeSucc = new Successeur[nbMot];
+        dejaVu = new boolean[nbMot];
     }
 
+    /**
+     * Retourne le premier succésseur du mot à l'index idx.
+     * @param idx Indice du mot
+     * @return Premier succésseur
+     */
     public Successeur getSuccesseur(int idx) {
-        return null;
+        return listeSucc[idx];
     }
 
+    /**
+     * Remplace le premier succésseur du mot à l'index idx
+     * @param idx Indice du mot
+     * @param s Premier succésseur
+     */
     public void setSuccesseur(int idx, Successeur s) {
 
     }

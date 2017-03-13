@@ -37,6 +37,9 @@ public class Main {
                 "art", "apr", "avr", "sur", "mat", "mur"};
         Graphe g = new Graphe(dico3court);
         lettreQuiSaute(g);
+
+
+
         //afficher (g) ;
     }
 
