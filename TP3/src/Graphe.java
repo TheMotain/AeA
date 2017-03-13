@@ -4,6 +4,6 @@
  */
 public class Graphe {
 
-
-
+    public void getSuccesseur(int s) {
+    }
 }
