@@ -13,7 +13,7 @@ public class Graphe {
         nbMot = lesMots.length;
         listeSucc = new Liste[nbMot];
         for (int i = 0; i < lesMots.length; i++) {
-            listeSucc[i] = new Liste();
+            listeSucc[i] = new Liste()
         }
     }
 
