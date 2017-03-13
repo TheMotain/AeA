@@ -7,7 +7,7 @@ package Utils;
  */
 public class StringUtils {
 
-    static boolean diffUneLettre(String a, String b) {
+    public static boolean diffUneLettre(String a, String b) {
         // a et b supposees de meme longueur
         int i = 0;
         while (i < a.length() && a.charAt(i) == b.charAt(i))

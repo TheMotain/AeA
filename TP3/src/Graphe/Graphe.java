@@ -6,7 +6,15 @@ package Graphe;
  */
 public class Graphe {
 
-    public Successeur getSuccesseur(int s) {
+    public Successeur getSuccesseur(int idx) {
         return null;
+    }
+
+    public void setSuccesseur(int idx, Successeur s) {
+
+    }
+
+    public int getIndex(String str) {
+        return 0;
     }
 }
