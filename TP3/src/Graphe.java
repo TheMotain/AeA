@@ -4,6 +4,8 @@
  */
 public class Graphe {
 
+    public Graphe(String[] lesMots){
 
+    }
 
 }
