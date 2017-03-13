@@ -9,7 +9,9 @@ public class Graphe {
     public Graphe(String[] lesMots){
         mot = lesMots.clone();
         nbMot = lesMots.length;
+        listeSucc = new Liste[nbMot];
         for (int i = 0; i < lesMots.length; i++) {
+            listeSucc[i] = new Liste();
         }
     }
 
