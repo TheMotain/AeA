@@ -44,6 +44,9 @@ public class Graphe {
     }
 
     public int getIndex(String str) {
+        for (int i = 0; i < mot.length; i++) {
+            if (mot[i] == str) return i;
+        }
         return 0;
     }
 
