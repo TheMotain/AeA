@@ -38,6 +38,28 @@ public class Main {
         }
     }
 
+    public static void DFS(Graphe g, int x) {
+        if (!g.dejaVu(x)) {
+            System.out.print(g.parcour(x) + " ");
+            Successeur s = g.getSuccesseur(x);
+            while (s != null) {
+                DFS(g, s.getNoeud());
+                s = s.getNextNoeuds();
+            }
+        }
+    }
+
+    public static void visit(Graphe g) {
+        g.resetParcour();
+        int i = 1;
+        for (String str : g.getMot()) {
+            System.out.print(i + " : ");
+            DFS(g, g.getIndex(str));
+            i++;
+            System.out.println();
+        }
+    }
+
     /**
      * Méthode main
      *
@@ -53,9 +75,10 @@ public class Main {
         Graphe g = new Graphe(dico3court);
         lettreQuiSaute(g);
         afficher(g);
+        visit(g);
     }
 
-    private static void afficher(final Graphe g) {
+    public static void afficher(final Graphe g) {
         System.out.println(g);
     }
 

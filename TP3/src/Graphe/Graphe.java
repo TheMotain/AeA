@@ -59,6 +59,19 @@ public class Graphe {
         return 0;
     }
 
+    public boolean dejaVu(int idx) {
+        return this.dejaVu[idx];
+    }
+
+    public String parcour(int idx) {
+        this.dejaVu[idx] = true;
+        return this.mot[idx];
+    }
+
+    public void resetParcour() {
+        this.dejaVu = new boolean[this.nbMot];
+    }
+
     @Override
     public String toString() {
         String output = "";
