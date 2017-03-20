@@ -1,8 +1,12 @@
 package Graphe;
 
 import Utils.StringUtils;
+import com.oracle.xmlns.internal.webservices.jaxws_databinding.SoapBindingUse;
+import com.sun.org.apache.xpath.internal.SourceTree;
+import com.sun.xml.internal.messaging.saaj.util.SAAJUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Classe principale du programme<br/>
@@ -17,12 +21,12 @@ public class Main {
      * @param args Arguments éventuels
      */
     public static void main(String[] args) {
-
-        String[] Dico = Dicos.dico4;
+        String[] Dico = Dicos.dico4 ;
         Graphe g = new Graphe(Dico);
         lettreQuiSaute(g);
-        afficher(g);
-        visit(g);
+        //afficher(g);
+        //visit(g);
+        afficherCheminPlusCourt(g, g.getIndex("lion"),g.getIndex("peur"));
     }
 
     /**
@@ -130,5 +134,42 @@ public class Main {
         return null;
     }
 
+    public static List<Integer> BFSIteratif (Graphe g, int from, int to) {
+        g.resetParcour();
+        List<Integer> aList = new ArrayList<>();
+        aList.add(from);
+        g.parcour(from);
+        while (aList.size() > 0) {
+            int s =  aList.remove(0);
+            System.out.println(s);
+            Successeur next = g.getSuccesseur(s);
+            while (next != null) {
+                if (g.dejaVu(next.getNoeud()) == false) {
+                    aList.add(next.getNoeud());
+                    g.setPere(next.getNoeud(), s);
+                    g.parcour(next.getNoeud());
+                    if (next.getNoeud() == to) return aList;
+                }
+                next = next.getNextNoeuds();
+            }
+        }
+        return null;
+    }
+
+    public static void afficherCheminPlusCourt(Graphe g, int from, int to){
+        if( BFSIteratif(g,from,to) != null) {
+            System.out.print("Chemin : ");
+            int elt = to;
+            while (elt != -1) {
+                System.out.print(g.getMot()[elt] + " ");
+                elt = g.pere(elt);
+            }
+            System.out.println();
+        }
+        else{
+            System.out.println("Aucun chemin, RIP !");
+        }
+
+    }
 
 }

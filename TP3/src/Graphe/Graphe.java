@@ -14,6 +14,8 @@ public class Graphe {
     /** Permet de savoir si un sommet à déjà etait visité */
     private boolean dejaVu[];
 
+    private int pere[];
+
     /**
      * Getter de l'attribut {@link Graphe#mot}
      *
@@ -32,7 +34,8 @@ public class Graphe {
         nbMot = lesMots.length;
         listeSucc = new Successeur[nbMot];
         dejaVu = new boolean[nbMot];
-        for (int i = 0; i < dejaVu.length; i++) dejaVu[i] = false;
+        pere = new int[nbMot];
+        for (int i = 0; i < nbMot; i++) { pere[i] = -1;}
     }
 
     /**
@@ -88,6 +91,10 @@ public class Graphe {
         return this.dejaVu[idx];
     }
 
+    public int pere(int idx){return this.pere[idx];}
+
+    public void setPere(int idx, int p){this.pere[idx] = p;}
+
     public String parcour(int idx) {
         this.dejaVu[idx] = true;
         return this.mot[idx];
@@ -96,6 +103,8 @@ public class Graphe {
     public void resetParcour() {
         this.dejaVu = new boolean[this.nbMot];
     }
+
+    public void restPere() {this.pere = new int[nbMot];}
 
     @Override
     public String toString() {
