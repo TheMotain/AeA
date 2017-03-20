@@ -2,6 +2,8 @@ package Graphe;
 
 import Utils.StringUtils;
 
+import java.util.ArrayList;
+
 /**
  * Classe principale du programme<br/>
  * Created by dalencourt on 13/03/17.
@@ -31,9 +33,9 @@ public class Main {
      * @param d Sommet 2
      */
     public static void ajouterArete(Graphe g, int s, int d) {
-        if (!g.isSuccesseur(s,d))
+        if (!g.isSuccesseur(s, d))
             g.setSuccesseur(s, new Successeur(d, g.getSuccesseur(s)));
-        if(!g.isSuccesseur(d,s))
+        if (!g.isSuccesseur(d, s))
             g.setSuccesseur(d, new Successeur(s, g.getSuccesseur(d)));
     }
 
@@ -76,6 +78,7 @@ public class Main {
      * Visite l'ensemble du graph et affiche toute les composantes
      * connexes.
      * !!! Voir pour afficher "i : " seulement si il existe une composante connexe !!!
+     *
      * @param g Le graph
      */
     public static void visit(Graphe g) {
@@ -91,10 +94,40 @@ public class Main {
 
     /**
      * Affiche le graph g
+     *
      * @param g Le graph
      */
     public static void afficher(final Graphe g) {
         System.out.println(g);
+    }
+
+
+    public static void chemin(Graphe g, int from, int to) {
+        ArrayList<Integer> path = new ArrayList<Integer>();
+        g.resetParcour();
+        if (getChemin(g, path, from, to) != null) {
+            for (Integer i : path) {
+                System.out.print(g.getMot()[i] + " ");
+            }
+            System.out.println("");
+        } else System.out.println("Aucun chemin trouver entre " + from + " et " + to + ".");
+    }
+
+    public static ArrayList<Integer> getChemin(Graphe g, ArrayList<Integer> path, int actuel, int to) {
+        if (actuel == to) {
+            path.add(actuel);
+            return path;
+        }
+        g.parcour(actuel);
+        Successeur next = g.getSuccesseur(actuel);
+        while (next != null) {
+            if (g.dejaVu(next.getNoeud()) == false && getChemin(g, path, next.getNoeud(), to) != null) {
+                path.add(actuel);
+                return path;
+            }
+            next = next.getNextNoeuds();
+        }
+        return null;
     }
 
 
