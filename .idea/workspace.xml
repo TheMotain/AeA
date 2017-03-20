@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fa25c38f-560d-4908-9ed6-c036c82ecb56" name="Default" comment="Début PathFinding (non tester)">
+    <list default="true" id="fa25c38f-560d-4908-9ed6-c036c82ecb56" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TP3/src/Graphe/Main.java" afterPath="$PROJECT_DIR$/TP3/src/Graphe/Main.java" />
     </list>
@@ -22,11 +22,11 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/TP3/src/Graphe/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="608">
-              <caret line="129" column="20" lean-forward="false" selection-start-line="129" selection-start-column="20" selection-end-line="129" selection-end-column="20" />
+            <state relative-caret-position="752">
+              <caret line="95" column="26" lean-forward="false" selection-start-line="95" selection-start-column="26" selection-end-line="95" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2645#2654#0" expanded="true" />
+                <element signature="e#2646#2655#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -807,7 +807,7 @@
       <option name="presentableId" value="Default" />
       <updated>1490005780094</updated>
       <workItem from="1490005782118" duration="2024000" />
-      <workItem from="1490011084359" duration="511000" />
+      <workItem from="1490011084359" duration="712000" />
     </task>
     <task id="LOCAL-00001" summary="Résolution du probleme de doublon dans les succésseur d'un noeud&#10;(Vérification présence avant ajout)">
       <created>1490007060107</created>
@@ -816,11 +816,18 @@
       <option name="project" value="LOCAL" />
       <updated>1490007060107</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Début PathFinding (non tester)">
+      <created>1490011603816</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1490011603816</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2535000" />
+    <option name="totallyTimeSpent" value="2736000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="132" y="39" width="3068" height="1761" extended-state="6" />
@@ -883,7 +890,7 @@
           <caret line="88" column="9" lean-forward="true" selection-start-line="88" selection-start-column="9" selection-end-line="88" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2645#2654#0" expanded="true" />
+            <element signature="e#2646#2655#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -944,11 +951,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/TP3/src/Graphe/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="608">
-          <caret line="129" column="20" lean-forward="false" selection-start-line="129" selection-start-column="20" selection-end-line="129" selection-end-column="20" />
+        <state relative-caret-position="752">
+          <caret line="95" column="26" lean-forward="false" selection-start-line="95" selection-start-column="26" selection-end-line="95" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2645#2654#0" expanded="true" />
+            <element signature="e#2646#2655#0" expanded="true" />
           </folding>
         </state>
       </provider>
