@@ -45,6 +45,21 @@ public class Graphe {
     }
 
     /**
+     * Permet de savoir si s est un succésseur de idx
+     * @param idx le noeud à evaluer
+     * @param s le succésseur possible à chercher
+     * @return Oui/Non
+     */
+    public boolean isSuccesseur(int idx,int s){
+        Successeur next = getSuccesseur(idx);
+        while (next != null){
+            if (next.getNoeud() == s) return true;
+            next = next.getNextNoeuds();
+        }
+        return false;
+    }
+
+    /**
      * Remplace le premier succésseur du mot à l'index idx
      * @param idx Indice du mot
      * @param s Premier succésseur

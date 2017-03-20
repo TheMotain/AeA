@@ -8,6 +8,25 @@ import Utils.StringUtils;
  */
 public class Main {
 
+
+    /**
+     * Méthode main
+     *
+     * @param args Arguments éventuels
+     */
+    public static void main(String[] args) {
+        String[] dico3court = {
+                "gag", "gai", "gaz", "gel", "gks", "gin",
+                "gnu", "glu", "gui", "guy", "gre", "gue",
+                "ace", "acm", "agi", "ait", "aie", "ail",
+                "air", "and", "alu", "ami", "arc", "are",
+                "art", "apr", "avr", "sur", "mat", "mur"};
+        Graphe g = new Graphe(dico3court);
+        lettreQuiSaute(g);
+        afficher(g);
+        visit(g);
+    }
+
     /**
      * Ajoute une arrète au graphe
      *
@@ -16,8 +35,10 @@ public class Main {
      * @param d Sommet 2
      */
     public static void ajouterArete(Graphe g, int s, int d) {
-        g.setSuccesseur(s, new Successeur(d, g.getSuccesseur(s)));
-        g.setSuccesseur(d, new Successeur(s, g.getSuccesseur(d)));
+        if (!g.isSuccesseur(s,d))
+            g.setSuccesseur(s, new Successeur(d, g.getSuccesseur(s)));
+        if(!g.isSuccesseur(d,s))
+            g.setSuccesseur(d, new Successeur(s, g.getSuccesseur(d)));
     }
 
     /**
@@ -38,6 +59,12 @@ public class Main {
         }
     }
 
+    /**
+     * Affiche la composante connexe contenant le mot x.
+     *
+     * @param g Le graph
+     * @param x Le mot à visiter
+     */
     public static void DFS(Graphe g, int x) {
         if (!g.dejaVu(x)) {
             System.out.print(g.parcour(x) + " ");
@@ -49,6 +76,12 @@ public class Main {
         }
     }
 
+    /**
+     * Visite l'ensemble du graph et affiche toute les composantes
+     * connexes.
+     *
+     * @param g Le graph
+     */
     public static void visit(Graphe g) {
         g.resetParcour();
         int i = 1;
@@ -61,25 +94,12 @@ public class Main {
     }
 
     /**
-     * Méthode main
-     *
-     * @param args Arguments éventuels
+     * Affiche le graph g
+     * @param g Le graph
      */
-    public static void main(String[] args) {
-        String[] dico3court = {
-                "gag", "gai", "gaz", "gel", "gks", "gin",
-                "gnu", "glu", "gui", "guy", "gre", "gue",
-                "ace", "acm", "agi", "ait", "aie", "ail",
-                "air", "and", "alu", "ami", "arc", "are",
-                "art", "apr", "avr", "sur", "mat", "mur"};
-        Graphe g = new Graphe(dico3court);
-        lettreQuiSaute(g);
-        afficher(g);
-        visit(g);
-    }
-
     public static void afficher(final Graphe g) {
         System.out.println(g);
     }
+
 
 }
