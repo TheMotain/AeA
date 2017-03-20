@@ -5,13 +5,13 @@ package Graphe;
  * Created by dalencourt on 13/03/17.
  */
 public class Graphe {
-
+    /** Liste chainé des succésseur */
     private Successeur listeSucc[];
-
+    /** Tableau des mots présent dans le graph */
     private String mot[];
-
+    /** Le nombre de mot présent dans le graph */
     private int nbMot = 0;
-
+    /** Permet de savoir si un sommet à déjà etait visité */
     private boolean dejaVu[];
 
     /**
@@ -23,6 +23,7 @@ public class Graphe {
         nbMot = lesMots.length;
         listeSucc = new Successeur[nbMot];
         dejaVu = new boolean[nbMot];
+        for (int i = 0; i < dejaVu.length; i++) dejaVu[i] = false;
     }
 
     /**
@@ -43,6 +44,11 @@ public class Graphe {
         listeSucc[idx] = s;
     }
 
+    /**
+     * Renvoi l'index du mot présent dans le tableau de mot
+     * @param str le mot à chercher
+     * @return l'index du mot
+     */
     public int getIndex(String str) {
         for (int i = 0; i < mot.length; i++) {
             if (mot[i] == str) return i;
@@ -50,6 +56,10 @@ public class Graphe {
         return 0;
     }
 
+    /**
+     * Affiche tous les mots du graphe avec leur succésseurs
+     * @return la chaine à afficher
+     */
     @Override
     public String toString() {
         String output = "";
