@@ -15,6 +15,15 @@ public class Graphe {
     private boolean dejaVu[];
 
     /**
+     * Getter de l'attribut {@link Graphe#mot}
+     *
+     * @return Table des mots
+     */
+    public String[] getMot() {
+        return mot;
+    }
+
+    /**
      * Constructeur
      * @param lesMots Liste des mots à mettre dans le graphe
      */
@@ -60,6 +69,19 @@ public class Graphe {
      * Affiche tous les mots du graphe avec leur succésseurs
      * @return la chaine à afficher
      */
+    public boolean dejaVu(int idx) {
+        return this.dejaVu[idx];
+    }
+
+    public String parcour(int idx) {
+        this.dejaVu[idx] = true;
+        return this.mot[idx];
+    }
+
+    public void resetParcour() {
+        this.dejaVu = new boolean[this.nbMot];
+    }
+
     @Override
     public String toString() {
         String output = "";
