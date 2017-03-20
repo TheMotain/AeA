@@ -15,13 +15,9 @@ public class Main {
      * @param args Arguments éventuels
      */
     public static void main(String[] args) {
-        String[] dico3court = {
-                "gag", "gai", "gaz", "gel", "gks", "gin",
-                "gnu", "glu", "gui", "guy", "gre", "gue",
-                "ace", "acm", "agi", "ait", "aie", "ail",
-                "air", "and", "alu", "ami", "arc", "are",
-                "art", "apr", "avr", "sur", "mat", "mur"};
-        Graphe g = new Graphe(dico3court);
+
+        String[] Dico = Dicos.dico4;
+        Graphe g = new Graphe(Dico);
         lettreQuiSaute(g);
         afficher(g);
         visit(g);
@@ -79,7 +75,7 @@ public class Main {
     /**
      * Visite l'ensemble du graph et affiche toute les composantes
      * connexes.
-     *
+     * !!! Voir pour afficher "i : " seulement si il existe une composante connexe !!!
      * @param g Le graph
      */
     public static void visit(Graphe g) {
