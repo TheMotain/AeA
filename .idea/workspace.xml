@@ -807,7 +807,7 @@
       <updated>1490005780094</updated>
       <workItem from="1490005782118" duration="2024000" />
       <workItem from="1490011084359" duration="778000" />
-      <workItem from="1490019857971" duration="253000" />
+      <workItem from="1490019857971" duration="362000" />
     </task>
     <task id="LOCAL-00001" summary="Résolution du probleme de doublon dans les succésseur d'un noeud&#10;(Vérification présence avant ajout)">
       <created>1490007060107</created>
@@ -851,11 +851,18 @@
       <option name="project" value="LOCAL" />
       <updated>1490020083220</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Début PathFinding (non tester)">
+      <created>1490020117016</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1490020117016</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3055000" />
+    <option name="totallyTimeSpent" value="3164000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="132" y="39" width="3068" height="1761" extended-state="6" />
