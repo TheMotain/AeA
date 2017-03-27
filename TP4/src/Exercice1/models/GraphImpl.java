@@ -74,4 +74,9 @@ public class GraphImpl implements Graph {
     public Iterator<Edge> getSortedEdgeIterator() {
         return this.links.iterator();
     }
+
+    @Override
+    public int getCountVertex() {
+        return nodes.size();
+    }
 }

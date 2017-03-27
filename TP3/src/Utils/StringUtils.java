@@ -22,4 +22,12 @@ public class StringUtils {
         }
         return i == a.length();
     }
+
+    public static boolean diffLettre(String a, String b, int dif){
+     return false;
+    }
+
+    public static boolean supLettre(String a,String b, int sup){
+        return false;
+    }
 }

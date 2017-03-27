@@ -1,9 +1,6 @@
 package Graphe;
 
 import Utils.StringUtils;
-import com.oracle.xmlns.internal.webservices.jaxws_databinding.SoapBindingUse;
-import com.sun.org.apache.xpath.internal.SourceTree;
-import com.sun.xml.internal.messaging.saaj.util.SAAJUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +18,12 @@ public class Main {
      * @param args Arguments éventuels
      */
     public static void main(String[] args) {
-        String[] Dico = Dicos.dico4 ;
+        String[] Dico = Dicos.dico4;
         Graphe g = new Graphe(Dico);
         lettreQuiSaute(g);
         //afficher(g);
         //visit(g);
-        afficherCheminPlusCourt(g, g.getIndex("lion"),g.getIndex("peur"));
+        afficherCheminPlusCourt(g, g.getIndex("lion"), g.getIndex("peur"));
     }
 
     /**
@@ -37,10 +34,9 @@ public class Main {
      * @param d Sommet 2
      */
     public static void ajouterArete(Graphe g, int s, int d) {
-        if (!g.isSuccesseur(s, d))
-            g.setSuccesseur(s, new Successeur(d, g.getSuccesseur(s)));
-        if (!g.isSuccesseur(d, s))
-            g.setSuccesseur(d, new Successeur(s, g.getSuccesseur(d)));
+        // if (!g.isSuccesseur(s, d))
+        //     g.setSuccesseur(s, new Successeur(d, g.getSuccesseur(s)));//if (!g.isSuccesseur(d, s))
+        g.setSuccesseur(d, new Successeur(s, g.getSuccesseur(d)));
     }
 
     /**
@@ -55,6 +51,32 @@ public class Main {
                     continue;
                 }
                 if (StringUtils.diffUneLettre(str1, str2)) {
+                    ajouterArete(g, g.getIndex(str1), g.getIndex(str2));
+                }
+            }
+        }
+    }
+
+    public static void supLettre(Graphe g, int sup) {
+        for (String str1 : g.getMot()) {
+            for (String str2 : g.getMot()) {
+                if (str1.equals(str2)) {
+                    continue;
+                }
+                if (StringUtils.supLettre(str1, str2, sup)) {
+                    ajouterArete(g, g.getIndex(str1), g.getIndex(str2));
+                }
+            }
+        }
+    }
+
+    public static void difLettre(Graphe g, int dif) {
+        for (String str1 : g.getMot()) {
+            for (String str2 : g.getMot()) {
+                if (str1.equals(str2)) {
+                    continue;
+                }
+                if (StringUtils.diffLettre(str1, str2, dif)) {
                     ajouterArete(g, g.getIndex(str1), g.getIndex(str2));
                 }
             }
@@ -105,7 +127,6 @@ public class Main {
         System.out.println(g);
     }
 
-
     public static void chemin(Graphe g, int from, int to) {
         ArrayList<Integer> path = new ArrayList<Integer>();
         g.resetParcour();
@@ -134,13 +155,13 @@ public class Main {
         return null;
     }
 
-    public static List<Integer> BFSIteratif (Graphe g, int from, int to) {
+    public static List<Integer> BFSIteratif(Graphe g, int from, int to) {
         g.resetParcour();
         List<Integer> aList = new ArrayList<>();
         aList.add(from);
         g.parcour(from);
         while (aList.size() > 0) {
-            int s =  aList.remove(0);
+            int s = aList.remove(0);
             System.out.println(s);
             Successeur next = g.getSuccesseur(s);
             while (next != null) {
@@ -156,8 +177,8 @@ public class Main {
         return null;
     }
 
-    public static void afficherCheminPlusCourt(Graphe g, int from, int to){
-        if( BFSIteratif(g,from,to) != null) {
+    public static void afficherCheminPlusCourt(Graphe g, int from, int to) {
+        if (BFSIteratif(g, from, to) != null) {
             System.out.print("Chemin : ");
             int elt = to;
             while (elt != -1) {
@@ -165,8 +186,7 @@ public class Main {
                 elt = g.pere(elt);
             }
             System.out.println();
-        }
-        else{
+        } else {
             System.out.println("Aucun chemin, RIP !");
         }
 

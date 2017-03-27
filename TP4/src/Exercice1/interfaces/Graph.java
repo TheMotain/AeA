@@ -29,4 +29,6 @@ public interface Graph {
     Iterator<Vertex> getVertexIterator();
 
     Iterator<Edge> getSortedEdgeIterator();
+
+    int getCountVertex();
 }
