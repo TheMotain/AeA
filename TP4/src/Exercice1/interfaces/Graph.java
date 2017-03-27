@@ -26,5 +26,7 @@ public interface Graph {
 
     Vertex getVertex(int i) throws VertexNotFoundException;
 
+    Iterator<Vertex> getVertexIterator();
+
     Iterator<Edge> getSortedEdgeIterator();
 }

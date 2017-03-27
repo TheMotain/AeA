@@ -66,6 +66,11 @@ public class GraphImpl implements Graph {
     }
 
     @Override
+    public Iterator<Vertex> getVertexIterator() {
+        return this.nodes.iterator();
+    }
+
+    @Override
     public Iterator<Edge> getSortedEdgeIterator() {
         return this.links.iterator();
     }
