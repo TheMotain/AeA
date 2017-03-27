@@ -79,4 +79,12 @@ public class GraphImpl implements Graph {
     public int getCountVertex() {
         return nodes.size();
     }
+
+    @Override
+    public String toString() {
+        return "GraphImpl{" +
+                "nodes=" + nodes +
+                ", links=" + links +
+                '}';
+    }
 }

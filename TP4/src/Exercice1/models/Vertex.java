@@ -28,4 +28,11 @@ public class Vertex {
     public int hashCode() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return "Vertex{" +
+                "id=" + id +
+                '}';
+    }
 }
