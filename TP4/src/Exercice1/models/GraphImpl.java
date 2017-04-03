@@ -43,6 +43,20 @@ public class GraphImpl implements Graph {
 
     @Override
     public void addEdge(final int i, final int j, final int weight) throws VertexNotFoundException {
+        Vertex Vi;
+        Vertex Vj;
+        try{
+            Vi = getVertex(i);
+        }catch(VertexNotFoundException e ){
+            Vi = new Vertex(i);
+            addVertex(Vi);
+        }
+        try{
+            Vj = getVertex(j);
+        }catch(VertexNotFoundException e ){
+            Vj = new Vertex(j);
+            addVertex(Vj);
+        }
         this.addEdge(new Edge(getVertex(i), getVertex(j), weight));
     }
 
@@ -86,5 +100,9 @@ public class GraphImpl implements Graph {
                 "nodes=" + nodes +
                 ", links=" + links +
                 '}';
+    }
+
+    public List<Edge> getLinks(){
+        return  links;
     }
 }

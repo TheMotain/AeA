@@ -37,7 +37,7 @@ public class MainKruskal {
         input.addEdge(9, 5, 3);
         input.addEdge(4, 8, 5);
         input.addEdge(5, 8, 13);
-        input.addEdge();
+        //input.addEdge();
     }
 
 }
