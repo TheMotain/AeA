@@ -31,11 +31,31 @@ public class Graphe {
     }
 
     /**
-     * Ajoute un noeud au graphe
-     * @param n node à ajouter
+     * Constructeur
+     * @param input graphe à copier
      */
-    public void addNode(final Node n) {
-        this.nodeList.add(n);
+    public Graphe(final Graphe input){
+        this.nodeList = new ArrayList<>(input.getNodeList());
+        this.linkList = new ArrayList<>();
+        for(final Link link : input.getLinkList()){
+            this.linkList.add(new Link(link.getSource(),link.getTarget(),false));
+        }
+    }
+
+    /**
+     * @see #nodeList
+     * @return the node list
+     */
+    public List<Node> getNodeList() {
+        return nodeList;
+    }
+
+    /**
+     * @see #linkList
+     * @return the node list
+     */
+    public List<Link> getLinkList() {
+        return linkList;
     }
 
     /**
@@ -57,7 +77,15 @@ public class Graphe {
      * @param n2 noeud cible
      */
     public void addLink(final Node n1, final Node n2) {
-        this.addLink(new Link(n1, n2));
+        this.addLink(new Link(n1, n2,true));
+    }
+
+    /**
+     * Permet d'ajouter le lien passé en paramètre
+     * @param l lien à ajouter
+     */
+    public void addLink(final Link l) {
+        linkList.add(l);
     }
 
     /**
@@ -81,15 +109,7 @@ public class Graphe {
             nj = new Node(j);
             addNode(nj);
         }
-        this.addLink(new Link(getNode(i), getNode(j)));
-    }
-
-    /**
-     * Permet d'ajouter le lien passé en paramètre
-     * @param l lien à ajouter
-     */
-    public void addLink(final Link l) {
-        linkList.add(l);
+        this.addLink(new Link(ni, nj, true));
     }
 
     /**
@@ -105,6 +125,14 @@ public class Graphe {
             }
         }
         throw new NodeNotFoundException();
+    }
+
+    /**
+     * Ajoute un noeud au graphe
+     * @param n node à ajouter
+     */
+    public void addNode(final Node n) {
+        this.nodeList.add(n);
     }
 
     /**
@@ -124,18 +152,58 @@ public class Graphe {
     }
 
     /**
-     * @see #nodeList
-     * @return the node list
+     * Remplace un comple de deux noeuds par un noeud méta.
+     * @param tuple couple à remplacer
+     * @param meta noeud de remplacement
      */
-    public List<Node> getNodeList() {
-        return nodeList;
+    public void replaceTuple(final Node[] tuple, final MetaNode meta) {
+        this.nodeList.remove(tuple[0]);
+        this.nodeList.remove(tuple[1]);
+        this.nodeList.add(meta);
+        for(Link link : this.linkList){
+            replaceNodeLink(link,tuple[0],meta);
+            replaceNodeLink(link,tuple[1],meta);
+        }
     }
 
     /**
-     * @see #linkList
-     * @return the node list
+     * Remplace le noeud par le noeud méta si il est dans le lien en paramètre
+     * @param link lien à mettre à jour
+     * @param node noeud à rempalcer
+     * @param meta métanoeud à remplacer
      */
-    public List<Link> getLinkList() {
-        return linkList;
+    private void replaceNodeLink(final Link link, final Node node, final MetaNode meta){
+        if(link.getSource() == node){
+            link.setSource(meta);
+        }else if(link.getTarget() == node){
+            link.setTarget(meta);
+        }
+    }
+
+    /**
+     * Permet de savoir si un lien existe entre deux nodes.
+     * @param node1 node 1
+     * @param node2 node 2
+     * @return vrai ou faux
+     */
+    public boolean existLink(final Node node1, final Node node2) {
+        return this.linkList.contains(new Link(node1,node2,false));
+    }
+
+    /**
+     * Retourne le nombre de voisins en commun entre deux noeuds
+     * @param node1 node 1
+     * @param node2 node 2
+     * @return Nombre de targets communes
+     */
+    public int findCommonTarget(final Node node1, final Node node2) {
+        int count = 0;
+        List<Node> neigthbors = node2.getNeighbors();
+        for(Node node : node1.getNeighbors()){
+            if(neigthbors.contains(node)){
+                count++;
+            }
+        }
+        return count;
     }
 }

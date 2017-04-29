@@ -16,7 +16,7 @@ public class MainNaif {
         System.out.println(graphe.getNodeList());
     }
 
-    private static Graphe generateGraphe() throws NodeNotFoundException {
+    public static Graphe generateGraphe() throws NodeNotFoundException {
         Graphe output = new Graphe();
         output.createLink(1,2);
         output.createLink(1,3);

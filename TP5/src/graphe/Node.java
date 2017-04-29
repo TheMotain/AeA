@@ -14,7 +14,7 @@ public class Node {
     /**
      * Liste des voisins du noeud
      */
-    private List<Node> neighbors;
+    protected List<Node> neighbors;
 
     /**
      * Couleur du noeud
@@ -67,21 +67,6 @@ public class Node {
      */
     public void setColor(final Integer color) {
         this.color = color;
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        final Node node = (Node) o;
-
-        return id == node.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return id;
     }
 
     @Override
