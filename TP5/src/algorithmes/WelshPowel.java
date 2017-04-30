@@ -9,11 +9,12 @@ import java.util.List;
  * Traitement naif pour la coloration des noeud. Pour chaque noeud on choisi une couleur différente des tous ses voisin.
  * La couleur de base étant à 0 on prendra la plus petite couleur disponible pour chaque noeud.
  */
-public class Naif extends AbstractAlgorithm {
+public class WelshPowel extends AbstractAlgorithm {
 
     @Override
     public Graphe run(final Graphe input) {
         final int baseColor = 0;
+        input.sortNodeByDegree();
         // Parcours de tous les noeud
         for (final Node node : input.getNodeList()) {
             int color = baseColor;

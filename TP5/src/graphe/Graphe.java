@@ -6,7 +6,9 @@ import exception.NodeNotFoundException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * Définit un graphe
@@ -114,13 +116,13 @@ public class Graphe {
 
     /**
      * Récupère le noeud pour l'id passé en paramètre
-     * @param i id du noeud à récupérer
+     * @param id id du noeud à récupérer
      * @return le noeud récupéré
      * @throws NodeNotFoundException est remonté si le noeud demandé n'existe pas
      */
-    public Node getNode(final int i) throws NodeNotFoundException {
+    public Node getNode(final int id) throws NodeNotFoundException {
         for (Node tmp : nodeList) {
-            if (tmp.getId() == i) {
+            if (tmp.getId() == id) {
                 return tmp;
             }
         }
@@ -152,7 +154,14 @@ public class Graphe {
     }
 
     /**
-     * Remplace un comple de deux noeuds par un noeud méta.
+     * Trie les noeuds par ordre de degrée descendant
+     */
+    public void sortNodeByDegree() {
+        nodeList.sort((node1, node2) -> node2.getNeighbors().size() - node1.getNeighbors().size());
+    }
+
+    /**
+     * Remplace un couple de deux noeuds par un noeud méta.
      * @param tuple couple à remplacer
      * @param meta noeud de remplacement
      */
@@ -160,6 +169,23 @@ public class Graphe {
         this.nodeList.remove(tuple[0]);
         this.nodeList.remove(tuple[1]);
         this.nodeList.add(meta);
+        for(Link link : this.linkList){
+            replaceNodeLink(link,tuple[0],meta);
+            replaceNodeLink(link,tuple[1],meta);
+        }
+    }
+
+    /**
+     * Remplace un couple de deux noeuds par un noeud méta
+     * et le positionne dans la liste à l'index choisi.
+     * @param tuple couple à remplacer
+     * @param meta noeud de remplacement
+     * @param idx index où positionner le noeud méta
+     */
+    public void replaceTuple(final Node[] tuple, final MetaNode meta, final int idx) {
+        this.nodeList.remove(tuple[0]);
+        this.nodeList.remove(tuple[1]);
+        this.nodeList.add(idx,meta);
         for(Link link : this.linkList){
             replaceNodeLink(link,tuple[0],meta);
             replaceNodeLink(link,tuple[1],meta);
@@ -205,5 +231,20 @@ public class Graphe {
             }
         }
         return count;
+    }
+
+    /**
+     * Permet de supprimer un noeud et tout ses liens
+     * @param node noeud à supprimer.
+     */
+    public void removeNode(final Node node) {
+        this.nodeList.remove(node);
+        ListIterator<Link> it = this.linkList.listIterator();
+        while (it.hasNext()){
+            Link link = it.next();
+            if(link.getSource() == node || link.getTarget() == node){
+                it.remove();
+            }
+        }
     }
 }
