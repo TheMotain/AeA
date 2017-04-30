@@ -105,4 +105,29 @@ public class GraphImpl implements Graph {
     public List<Edge> getLinks(){
         return  links;
     }
+
+    public Edge getEdge(final int i,final int j)
+    {
+        for (int k = 0; k < links.size() ; k++) {
+            Edge link = links.get(k);
+            if (link.getSource().getId() == i && link.getTarget().getId() == j)
+                return link;
+            else if(link.getSource().getId() == j && link.getTarget().getId() == i)
+                return link;
+        }
+
+        return null;
+    }
+
+    public List<Integer> getNeighbors(int elt){
+        List<Integer> alist = new ArrayList<Integer>();
+        for (int i = 0; i < links.size() ; i++) {
+            Edge link = links.get(i);
+            if (link.getSource().getId() == elt)
+                alist.add(link.getTarget().getId());
+            else if(link.getTarget().getId() == elt)
+                alist.add(link.getSource().getId());
+        }
+        return  alist;
+    }
 }

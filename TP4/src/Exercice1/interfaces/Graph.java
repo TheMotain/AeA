@@ -6,6 +6,7 @@ import Exercice1.models.Edge;
 import Exercice1.models.Vertex;
 
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by dalencourt on 27/03/17.
@@ -31,4 +32,13 @@ public interface Graph {
     Iterator<Edge> getSortedEdgeIterator();
 
     int getCountVertex();
-}
+
+     List<Edge> getLinks();
+
+     Edge getEdge(int i,int j);
+
+
+     List<Integer> getNeighbors(int elt);
+
+
+    }
