@@ -19,9 +19,9 @@ public class WelshPowel extends AbstractAlgorithm {
         for (final Node node : input.getNodeList()) {
             int color = baseColor;
             for (Node tmp : node.getNeighborsOrderByColor()) {
-                if (tmp.getColor() != null && tmp.getColor() != color) {
+                if (tmp.getColor() != null && tmp.getColor() > color) {
                     break;
-                } else if (tmp.getColor() != null) {
+                } else if (tmp.getColor() != null && color <= tmp.getColor()) {
                     color++;
                 }
             }

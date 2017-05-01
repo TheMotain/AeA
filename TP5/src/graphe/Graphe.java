@@ -5,10 +5,7 @@ import exception.NodeAlreadyExistException;
 import exception.NodeNotFoundException;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 /**
  * Définit un graphe
@@ -34,14 +31,33 @@ public class Graphe {
 
     /**
      * Constructeur
+     * @param input graphe à recopier
+     * @param fullCopy précie si la copie doit être complète ou si les références de noeuds doivent être gardées
+     */
+    public Graphe(final Graphe input, final boolean fullCopy) throws NodeNotFoundException {
+        this.linkList = new ArrayList<>();
+        this.nodeList = new ArrayList<>();
+        if(!fullCopy) {
+            this.nodeList.addAll(input.getNodeList());
+            for (final Link link : input.getLinkList()) {
+                this.linkList.add(new Link(link.getSource(), link.getTarget(), false));
+            }
+        } else {
+            for(final Node node : input.getNodeList()){
+                this.nodeList.add(new Node(node.getId()));
+            }
+            for(final Link link : input.getLinkList()) {
+                this.createLink(link.getSource().getId(),link.getTarget().getId());
+            }
+        }
+    }
+
+    /**
+     * Constructeur
      * @param input graphe à copier
      */
-    public Graphe(final Graphe input){
-        this.nodeList = new ArrayList<>(input.getNodeList());
-        this.linkList = new ArrayList<>();
-        for(final Link link : input.getLinkList()){
-            this.linkList.add(new Link(link.getSource(),link.getTarget(),false));
-        }
+    public Graphe(final Graphe input) throws NodeNotFoundException {
+        this(input, false);
     }
 
     /**
@@ -67,10 +83,24 @@ public class Graphe {
      */
     public void createNode(final int id) throws NodeAlreadyExistException {
         Node e = new Node(id);
-        if (this.nodeList.contains(e)) {
+        if (contains(e)) {
             throw new NodeAlreadyExistException();
         }
         this.nodeList.add(e);
+    }
+
+    /**
+     * Permet de savoir si la node est contenue dans l'ensemble des noeuds
+     * @param node node à ttrouver
+     * @return vrai ou faux
+     */
+    private boolean contains(Node node){
+        for(Node n : this.nodeList){
+            if(n.getId() == node.getId()){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -246,5 +276,17 @@ public class Graphe {
                 it.remove();
             }
         }
+    }
+
+    /**
+     * Récupère le nombre de couleurs différentes du graphe
+     * @return nombre de couleurs
+     */
+    public int getColorCount(){
+        Set<Integer> colors = new HashSet<>();
+        for(Node n : this.nodeList){
+            colors.add(n.getColor());
+        }
+        return colors.size();
     }
 }

@@ -1,5 +1,6 @@
 package algorithmes;
 
+import exception.NodeNotFoundException;
 import graphe.Graphe;
 import graphe.MetaNode;
 import graphe.Node;
@@ -11,7 +12,7 @@ import java.util.List;
  */
 public class RecursiveLargestFirstLeighton extends AbstractAlgorithm {
     @Override
-    public Graphe run(final Graphe input) {
+    public Graphe run(final Graphe input) throws NodeNotFoundException {
         final Graphe copy = new Graphe(input);
         // On trie les noeuds par degré décroissant
         copy.sortNodeByDegree();

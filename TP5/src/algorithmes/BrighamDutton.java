@@ -1,5 +1,6 @@
 package algorithmes;
 
+import exception.NodeNotFoundException;
 import graphe.Graphe;
 import graphe.MetaNode;
 import graphe.Node;
@@ -12,7 +13,7 @@ import java.util.List;
 public class BrighamDutton extends AbstractAlgorithm {
 
     @Override
-    public Graphe run(final Graphe input) {
+    public Graphe run(final Graphe input) throws NodeNotFoundException {
         Graphe copy = new Graphe(input);
         Node[] tuple;
         // Contraction des noeuds tant que c'est possible

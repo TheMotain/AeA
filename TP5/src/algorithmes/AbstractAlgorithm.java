@@ -1,5 +1,6 @@
 package algorithmes;
 
+import exception.NodeNotFoundException;
 import graphe.Graphe;
 
 /**
@@ -7,5 +8,5 @@ import graphe.Graphe;
  */
 public abstract class AbstractAlgorithm {
 
-    public abstract Graphe run(final Graphe input);
+    public abstract Graphe run(final Graphe input) throws NodeNotFoundException;
 }
