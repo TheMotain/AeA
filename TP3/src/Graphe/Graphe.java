@@ -78,9 +78,9 @@ public class Graphe {
      */
     public int getIndex(String str) {
         for (int i = 0; i < mot.length; i++) {
-            if (mot[i] == str) return i;
+            if (mot[i].equals(str)) return i;
         }
-        return 0;
+        throw new Error (str + " n'est pas dans le tableau.") ;
     }
 
     /**
@@ -91,19 +91,40 @@ public class Graphe {
         return this.dejaVu[idx];
     }
 
+    /**
+     * Retourne le père d'indice idx
+     * @param idx indice à chercher
+     * @return idx du père
+     */
     public int pere(int idx){return this.pere[idx];}
 
+    /**
+     * ajoute un père à l'indice choisi
+     * @param idx indice où ajouter le père
+     * @param p père à ajouter
+     */
     public void setPere(int idx, int p){this.pere[idx] = p;}
 
+    /**
+     * Note le mot idx comme parcouru et retourne le mot
+     * @param idx l'indice parcouru
+     * @return le mot parcouru
+     */
     public String parcour(int idx) {
         this.dejaVu[idx] = true;
         return this.mot[idx];
     }
 
+    /**
+     * Remet le parcours à 0
+     */
     public void resetParcour() {
         this.dejaVu = new boolean[this.nbMot];
     }
 
+    /**
+     * remet les pères à 0
+     */
     public void restPere() {this.pere = new int[nbMot];}
 
     @Override

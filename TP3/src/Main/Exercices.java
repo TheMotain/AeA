@@ -1,30 +1,17 @@
-package Graphe;
+package Main;
 
+import Graphe.Graphe;
+import Graphe.Successeur;
 import Utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Classe principale du programme<br/>
+ * Contient les différents méthodes demandé dans les exercices <br/>
  * Created by dalencourt on 13/03/17.
  */
-public class Main {
-
-
-    /**
-     * Méthode main
-     *
-     * @param args Arguments éventuels
-     */
-    public static void main(String[] args) {
-        String[] Dico = Dicos.dico4;
-        Graphe g = new Graphe(Dico);
-        lettreQuiSaute(g);
-        //afficher(g);
-        //visit(g);
-        afficherCheminPlusCourt(g, g.getIndex("lion"), g.getIndex("peur"));
-    }
+public class Exercices {
 
     /**
      * Ajoute une arrète au graphe
@@ -34,8 +21,6 @@ public class Main {
      * @param d Sommet 2
      */
     public static void ajouterArete(Graphe g, int s, int d) {
-        // if (!g.isSuccesseur(s, d))
-        //     g.setSuccesseur(s, new Successeur(d, g.getSuccesseur(s)));//if (!g.isSuccesseur(d, s))
         g.setSuccesseur(d, new Successeur(s, g.getSuccesseur(d)));
     }
 
@@ -57,27 +42,20 @@ public class Main {
         }
     }
 
-    public static void supLettre(Graphe g, int sup) {
+    /**
+     * Ajoute toutes les arrête en fonction des mots présent dans le graphe selon la règle sup/diff
+     * @param g graphe
+     * @param sup nombre de suppressions possibles
+     * @param diff nombre de différences possibles
+     */
+    public static void supDiffLettre(Graphe g, int sup, int diff) {
         for (String str1 : g.getMot()) {
             for (String str2 : g.getMot()) {
                 if (str1.equals(str2)) {
                     continue;
                 }
-                if (StringUtils.supLettre(str1, str2, sup)) {
-                    ajouterArete(g, g.getIndex(str1), g.getIndex(str2));
-                }
-            }
-        }
-    }
-
-    public static void difLettre(Graphe g, int dif) {
-        for (String str1 : g.getMot()) {
-            for (String str2 : g.getMot()) {
-                if (str1.equals(str2)) {
-                    continue;
-                }
-                if (StringUtils.diffLettre(str1, str2, dif)) {
-                    ajouterArete(g, g.getIndex(str1), g.getIndex(str2));
+                if (StringUtils.supDiffLettre(str1, str2, sup, diff)) {
+                    ajouterArete(g, g.getIndex(str2), g.getIndex(str1));
                 }
             }
         }
@@ -103,7 +81,6 @@ public class Main {
     /**
      * Visite l'ensemble du graph et affiche toute les composantes
      * connexes.
-     * !!! Voir pour afficher "i : " seulement si il existe une composante connexe !!!
      *
      * @param g Le graph
      */
@@ -127,10 +104,16 @@ public class Main {
         System.out.println(g);
     }
 
-    public static void chemin(Graphe g, int from, int to) {
+    /**
+     * Recherche un chemin entre deux mots par la méthode du parcours en profondeur
+     * @param g Graphe
+     * @param from Mot de départ
+     * @param to Mot d'arrivé
+     */
+    public static void chemin(Graphe g, String from, String to) {
         ArrayList<Integer> path = new ArrayList<Integer>();
         g.resetParcour();
-        if (getChemin(g, path, from, to) != null) {
+        if (getChemin(g, path, g.getIndex(from), g.getIndex(to)) != null) {
             for (Integer i : path) {
                 System.out.print(g.getMot()[i] + " ");
             }
@@ -138,6 +121,14 @@ public class Main {
         } else System.out.println("Aucun chemin trouver entre " + from + " et " + to + ".");
     }
 
+    /**
+     * Récupère la liste des mots entre deux mots avec le parcours en profondeur par récurence
+     * @param g graphe
+     * @param path chemin actuellement réalisé
+     * @param actuel mot courrant
+     * @param to mot final
+     * @return chemin réalisé
+     */
     public static ArrayList<Integer> getChemin(Graphe g, ArrayList<Integer> path, int actuel, int to) {
         if (actuel == to) {
             path.add(actuel);
@@ -146,7 +137,7 @@ public class Main {
         g.parcour(actuel);
         Successeur next = g.getSuccesseur(actuel);
         while (next != null) {
-            if (g.dejaVu(next.getNoeud()) == false && getChemin(g, path, next.getNoeud(), to) != null) {
+            if (!g.dejaVu(next.getNoeud()) && getChemin(g, path, next.getNoeud(), to) != null) {
                 path.add(actuel);
                 return path;
             }
@@ -155,6 +146,13 @@ public class Main {
         return null;
     }
 
+    /**
+     * Implémentation de la recherche de chemin via le parcours en largeur
+     * @param g graphe
+     * @param from mot de départ
+     * @param to mot d'arrivé
+     * @return la liste des étapes
+     */
     public static List<Integer> BFSIteratif(Graphe g, int from, int to) {
         g.resetParcour();
         List<Integer> aList = new ArrayList<>();
@@ -162,10 +160,9 @@ public class Main {
         g.parcour(from);
         while (aList.size() > 0) {
             int s = aList.remove(0);
-            System.out.println(s);
             Successeur next = g.getSuccesseur(s);
             while (next != null) {
-                if (g.dejaVu(next.getNoeud()) == false) {
+                if (!g.dejaVu(next.getNoeud())) {
                     aList.add(next.getNoeud());
                     g.setPere(next.getNoeud(), s);
                     g.parcour(next.getNoeud());
@@ -177,10 +174,18 @@ public class Main {
         return null;
     }
 
-    public static void afficherCheminPlusCourt(Graphe g, int from, int to) {
-        if (BFSIteratif(g, from, to) != null) {
+    /**
+     * Affiche le plus court chemin selon la méthode de parcours en largeur
+     * @param g le graphe
+     * @param from mot de départ
+     * @param to mot d'arrivé
+     */
+    public static void afficherCheminPlusCourt(Graphe g, String from, String to) {
+        final int idxFrom = g.getIndex(from);
+        final int idxTo = g.getIndex(to);
+        if (BFSIteratif(g, idxFrom, idxTo) != null) {
             System.out.print("Chemin : ");
-            int elt = to;
+            int elt = idxTo;
             while (elt != -1) {
                 System.out.print(g.getMot()[elt] + " ");
                 elt = g.pere(elt);
@@ -189,7 +194,5 @@ public class Main {
         } else {
             System.out.println("Aucun chemin, RIP !");
         }
-
     }
-
 }
