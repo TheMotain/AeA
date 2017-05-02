@@ -60,6 +60,9 @@ public class PerformanceComparatorNPArgument {
             time_total_algo_RLF += System.currentTimeMillis() - start;
             nb_couleur_total_RLF += g.getColorCount();
         }
+        System.out.println(String.format("Méthode WelshPowel -> Temps total : %s ms, Nombre de couleurs total : %s", time_total_algo_WP, nb_couleur_total_WP));
+        System.out.println(String.format("Méthode BrighamDutton -> Temps total : %s ms, Nombre de couleurs total : %s", time_total_algo_BD, nb_couleur_total_BD));
+        System.out.println(String.format("Méthode RLF -> Temps total : %s ms, Nombre de couleurs total : %s", time_total_algo_RLF, nb_couleur_total_RLF));
         time_total_algo_BD /= Integer.valueOf(args[NOMBRE_EXECUTION]);
         time_total_algo_RLF /= Integer.valueOf(args[NOMBRE_EXECUTION]);
         time_total_algo_WP /= Integer.valueOf(args[NOMBRE_EXECUTION]);
