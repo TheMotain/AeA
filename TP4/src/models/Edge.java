@@ -1,4 +1,4 @@
-package Exercice1.models;
+package models;
 
 /**
  * Created by dalencourt on 27/03/17.

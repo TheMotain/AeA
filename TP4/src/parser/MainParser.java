@@ -1,11 +1,9 @@
-package Exercice1.Parser;
+package parser;
 
-import Exercice1.exceptions.VertexAlreadyExistException;
-import Exercice1.exceptions.VertexNotFoundException;
-import Exercice1.models.GraphImpl;
+import exceptions.VertexAlreadyExistException;
+import exceptions.VertexNotFoundException;
+import models.GraphImpl;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 
 /**

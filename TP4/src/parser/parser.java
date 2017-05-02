@@ -1,11 +1,10 @@
-package Exercice1.Parser;
+package parser;
 
-import Exercice1.exceptions.VertexNotFoundException;
-import Exercice1.models.Edge;
-import Exercice1.models.GraphImpl;
+import exceptions.VertexNotFoundException;
+import models.Edge;
+import models.GraphImpl;
 
 import java.io.*;
-import java.util.Scanner;
 
 /**
  * Created by ludovicgoldak on 03/04/2017.

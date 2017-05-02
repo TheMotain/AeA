@@ -1,4 +1,4 @@
-package Exercice1.exceptions;
+package exceptions;
 
 /**
  * Created by dalencourt on 27/03/17.

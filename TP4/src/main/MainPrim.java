@@ -1,14 +1,16 @@
-package Exercice1.algorithme;
+package main;
 
-import Exercice1.exceptions.VertexAlreadyExistException;
-import Exercice1.exceptions.VertexNotFoundException;
-import Exercice1.interfaces.Graph;
-import Exercice1.models.GraphImpl;
+import algorithme.Prim;
+import exceptions.VertexAlreadyExistException;
+import exceptions.VertexNotFoundException;
+import interfaces.Graph;
+import models.GraphImpl;
 
 /**
- * Created by dalencourt on 27/03/17.
+ * Main qui exécute lalgorithme de prim
+ * Created by ludovicgoldak on 24/04/2017.
  */
-public class MainKruskal {
+public class MainPrim {
 
     public static void main(String[] args) throws VertexAlreadyExistException, VertexNotFoundException {
         Graph input = new GraphImpl();
@@ -40,7 +42,7 @@ public class MainKruskal {
         input.addEdge(8, 9, 1);
         input.addEdge(8, 11, 4);
         input.addEdge(8, 12, 11);
-        System.out.println(new Kruskal().startAlgorithm(input));
+        System.out.println(new Prim().startAlgorithm(input));
     }
 
 }

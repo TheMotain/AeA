@@ -1,14 +1,15 @@
-package Exercice1.models;
+package models;
 
-import Exercice1.exceptions.VertexAlreadyExistException;
-import Exercice1.exceptions.VertexNotFoundException;
-import Exercice1.interfaces.Graph;
+import exceptions.VertexAlreadyExistException;
+import exceptions.VertexNotFoundException;
+import interfaces.Graph;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 /**
+ * Implémentation du graphe
  * Created by dalencourt on 27/03/17.
  */
 public class GraphImpl implements Graph {
@@ -35,29 +36,24 @@ public class GraphImpl implements Graph {
         }
         this.nodes.add(e);
     }
-
-    @Override
-    public void addEdge(final Vertex v1, final Vertex v2, final int weight) {
-        this.addEdge(new Edge(v1, v2, weight));
-    }
-
+    
     @Override
     public void addEdge(final int i, final int j, final int weight) throws VertexNotFoundException {
-        Vertex Vi;
-        Vertex Vj;
-        try{
-            Vi = getVertex(i);
-        }catch(VertexNotFoundException e ){
-            Vi = new Vertex(i);
-            addVertex(Vi);
+        Vertex vi;
+        Vertex vj;
+        try {
+            vi = getVertex(i);
+        } catch (VertexNotFoundException e) {
+            vi = new Vertex(i);
+            addVertex(vi);
         }
-        try{
-            Vj = getVertex(j);
-        }catch(VertexNotFoundException e ){
-            Vj = new Vertex(j);
-            addVertex(Vj);
+        try {
+            vj = getVertex(j);
+        } catch (VertexNotFoundException e) {
+            vj = new Vertex(j);
+            addVertex(vj);
         }
-        this.addEdge(new Edge(getVertex(i), getVertex(j), weight));
+        this.addEdge(new Edge(vi, vj, weight));
     }
 
     @Override
@@ -80,11 +76,6 @@ public class GraphImpl implements Graph {
     }
 
     @Override
-    public Iterator<Vertex> getVertexIterator() {
-        return this.nodes.iterator();
-    }
-
-    @Override
     public Iterator<Edge> getSortedEdgeIterator() {
         return this.links.iterator();
     }
@@ -102,32 +93,24 @@ public class GraphImpl implements Graph {
                 '}';
     }
 
-    public List<Edge> getLinks(){
-        return  links;
+    public List<Edge> getLinks() {
+        return links;
     }
 
-    public Edge getEdge(final int i,final int j)
-    {
-        for (int k = 0; k < links.size() ; k++) {
-            Edge link = links.get(k);
-            if (link.getSource().getId() == i && link.getTarget().getId() == j)
-                return link;
-            else if(link.getSource().getId() == j && link.getTarget().getId() == i)
-                return link;
+    @Override
+    public List<Edge> getEdgesFromVertex(Vertex vertex) {
+        List<Edge> alist = new ArrayList<>();
+        for (Edge link : links) {
+            if (link.getSource().equals(vertex))
+                alist.add(link);
+            else if (link.getTarget().equals(vertex))
+                alist.add(link);
         }
-
-        return null;
+        return alist;
     }
 
-    public List<Integer> getNeighbors(int elt){
-        List<Integer> alist = new ArrayList<Integer>();
-        for (int i = 0; i < links.size() ; i++) {
-            Edge link = links.get(i);
-            if (link.getSource().getId() == elt)
-                alist.add(link.getTarget().getId());
-            else if(link.getTarget().getId() == elt)
-                alist.add(link.getSource().getId());
-        }
-        return  alist;
+    @Override
+    public List<Vertex> getVertexList() {
+        return nodes;
     }
 }

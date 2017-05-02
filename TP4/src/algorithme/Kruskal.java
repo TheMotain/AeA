@@ -1,9 +1,9 @@
-package Exercice1.algorithme;
+package algorithme;
 
-import Exercice1.interfaces.Graph;
-import Exercice1.models.Edge;
-import Exercice1.models.GraphImpl;
-import Exercice1.models.Vertex;
+import interfaces.Graph;
+import models.Edge;
+import models.GraphImpl;
+import models.Vertex;
 
 import java.util.*;
 
