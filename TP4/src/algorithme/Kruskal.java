@@ -16,115 +16,114 @@ public class Kruskal implements Algorithm {
 
     @Override
     public Graph startAlgorithm(final Graph graph) {
-        // Map des sous graphes qui ont été créé pour chaque noeud visité
-        final Map<Vertex, GraphID> visitedVertex = new HashMap<>();
-
-        final Graph a = new GraphImpl();
+        // Liste des Groupes de vertex en cours de fusions
+        final List<VertexGroup> fusions = new ArrayList<>();
 
         for (Iterator<Edge> it = graph.getSortedEdgeIterator(); it.hasNext(); ) {
-            // Contrôle en premier si tous les noeuds ont été rencontré une fois
-            // Si la première condition est validé on regarde grâce à un set si nous avons un unique graph
-            if (a.getCountVertex() == graph.getCountVertex() && new HashSet<>(visitedVertex.values()).size() == 1)
-                // Si la condition est validée arrêt de l'algorithme
+            // On arrète lorque tous les noeuds ont été rencontré et fusionné dans un même groupe
+            if(fusions.size() == 1 && fusions.get(0).getVertexs().size() == graph.getCountVertex()){
                 break;
+            }
 
-            final Edge e = it.next();
-            // Contrôle si le noeud source ou destination n'a pas encore été rencontré
-            // Si les deux premières conditions n'ont pas été validées on regarde si les graphes associés pour chaque noeud sont différents
-            if (visitedVertex.get(e.getSource()) == null || visitedVertex.get(e.getSource()) == null || !visitedVertex.get(e.getSource()).equals(visitedVertex.get(e.getTarget()))) {
-                // Les condition sont valides on ajoute le lien au graphe
-                a.addEdge(e);
-                // On récupère les sous graphes associés
-                GraphID g1 = visitedVertex.get(e.getSource());
-                GraphID g2 = visitedVertex.get(e.getTarget());
-
-                if (g1 == null && g2 == null) {
-                    // Les deux noeuds n'ont encore jamais été rencontré, on créer un sous graphe pour ces noeud
-                    g1 = new GraphID();
-                    visitedVertex.put(e.getSource(), g1);
-                    visitedVertex.put(e.getTarget(), g1);
-                    a.addVertex(e.getSource());
-                    a.addVertex(e.getTarget());
-                } else if (g1 == null) {
-                    // La source n'a pas encore été rencontrée on l'associe au sous graphe de la destination
-                    visitedVertex.put(e.getSource(), g2);
-                    a.addVertex(e.getSource());
-                } else if (g2 == null) {
-                    // La destination n'a pas encore été rencontrée on l'associe au sous graphe de la source
-                    visitedVertex.put(e.getTarget(), g1);
-                    a.addVertex(e.getTarget());
-                } else {
-                    // Les deux noeud on des sous graphes différents
-                    // On fusionne les sous graphe en changeant l'ID du sous graphe du noeud de destination
-                    // Les autres noeud du sous graphe par référence
-                    g2.setId(g1.getId());
-                    g1.addFusion(g2);
+            final Edge edge = it.next();
+            VertexGroup src = null;
+            VertexGroup tgt = null;
+            // On recheche les regrouppements associés à chaques extrémité du lien
+            for(VertexGroup group : fusions){
+                if(group.getVertexs().contains(edge.getSource())){
+                    src = group;
+                }
+                if(group.getVertexs().contains(edge.getTarget())){
+                    tgt = group;
                 }
             }
+
+            if(src == null && tgt == null){
+                // Si les deux extrémités n'ont pas été encore rencontré création d'un nouveau groupe
+                fusions.add(new VertexGroup(edge));
+            } else if (src == tgt){
+                // Si les deux extrémités appertienent au même regroupement on passe au lien suivant
+                continue;
+            } else if (src == null){
+                // Si l'extrémité source n'a pas encore été regroupé on le regroupe avec l'extrémité target
+                tgt.fusion(edge.getSource(),edge);
+            } else if (tgt == null){
+                // Si l'extrémité target n'a pas encore été regroupé on le regroupe avec l'extrémité source
+                src.fusion(edge.getTarget(),edge);
+            } else {
+                // Les deux extrémités ont rencontrés
+                // fusion des deux regrouppements
+                src.fusion(tgt,edge);
+                fusions.remove(tgt);
+            }
         }
-        return a;
+        // Reconstruction du graphe de sortie
+        final Graph output = new GraphImpl();
+        output.getVertexList().addAll(fusions.get(0).getVertexs());
+        output.getLinks().addAll(fusions.get(0).getEdges());
+        return output;
     }
 
     /**
-     * Définit un numéro de sous graphe avec un id généré automatiquement à la création du sous graphe
+     * Définit un regrouppement de vertexs
      */
-    private static class GraphID {
+    private class VertexGroup{
         /**
-         * Id du prochain sous graphe
+         * Liste des vertexs regroupés
          */
-        private static int id_inc = 1;
+        private List<Vertex> vertexs;
         /**
-         * Id du graphe
+         * Liste des liens concerné par le regrouppement
          */
-        private int id = id_inc++;
-        /**
-         * Liste de graph fusionné
-         */
-        private final List<GraphID> fusions = new ArrayList<>();
+        private List<Edge> edges;
 
         /**
-         * Permet de modifier l'id du graphe et de tous les graphes fusionnés
-         *
-         * @param id nouvel ID
+         * Constructeur à partir d'un lien de deux noeud
+         * @param edge lien sur lequel créer un regrouppement
          */
-        void setId(int id) {
-            this.id = id;
-            for (GraphID fusion : fusions) {
-                fusion.setId(id);
-            }
+        public VertexGroup(final Edge edge){
+            vertexs = new ArrayList<>();
+            edges = new ArrayList<>();
+            vertexs.add(edge.getSource());
+            vertexs.add(edge.getTarget());
+            edges.add(edge);
         }
 
         /**
-         * Récupère l'ID du graphe
-         *
-         * @return l'ID
+         * Fusionne le regrouppement en paramètre avec le regrouppement courrant grâce au lien en paramètre
+         * @param group regrouppement à fusionner
+         * @param edge lien permettant la fusion
          */
-        int getId() {
-            return this.id;
+        public void fusion(final VertexGroup group, final Edge edge){
+            vertexs.addAll(group.getVertexs());
+            edges.addAll(group.getEdges());
+            edges.add(edge);
         }
 
         /**
-         * Permet de fusionner un graph au graph courrant
-         *
-         * @param graph Graph à fusionner
+         * Groupe un vertex au regrouppement courrant
+         * @param vertex vertex à regrouper
+         * @param edge lien permettant la fusion
          */
-        void addFusion(GraphID graph) {
-            this.fusions.add(graph);
+        public void fusion(final Vertex vertex, final Edge edge){
+            vertexs.add(vertex);
+            edges.add(edge);
         }
 
-        @Override
-        public boolean equals(final Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-
-            final GraphID graphID = (GraphID) o;
-
-            return id == graphID.id;
+        /**
+         * @return the vertexs
+         * @see VertexGroup#vertexs
+         */
+        public List<Vertex> getVertexs() {
+            return vertexs;
         }
 
-        @Override
-        public int hashCode() {
-            return id;
+        /**
+         * @return the edges
+         * @see VertexGroup#edges
+         */
+        public List<Edge> getEdges() {
+            return edges;
         }
     }
 }

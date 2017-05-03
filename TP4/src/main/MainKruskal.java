@@ -14,18 +14,18 @@ public class MainKruskal {
 
     public static void main(String[] args) throws VertexAlreadyExistException, VertexNotFoundException {
         Graph input = new GraphImpl();
-        input.addVertexNumber(1);
-        input.addVertexNumber(2);
-        input.addVertexNumber(3);
-        input.addVertexNumber(4);
-        input.addVertexNumber(5);
-        input.addVertexNumber(6);
-        input.addVertexNumber(7);
-        input.addVertexNumber(8);
-        input.addVertexNumber(9);
-        input.addVertexNumber(10);
-        input.addVertexNumber(11);
-        input.addVertexNumber(12);
+        input.addVertexId(1);
+        input.addVertexId(2);
+        input.addVertexId(3);
+        input.addVertexId(4);
+        input.addVertexId(5);
+        input.addVertexId(6);
+        input.addVertexId(7);
+        input.addVertexId(8);
+        input.addVertexId(9);
+        input.addVertexId(10);
+        input.addVertexId(11);
+        input.addVertexId(12);
         input.addEdge(1, 2, 7);
         input.addEdge(1, 3, 10);
         input.addEdge(2, 3, 2);

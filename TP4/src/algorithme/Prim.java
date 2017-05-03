@@ -10,7 +10,7 @@ import sun.awt.image.ImageWatched;
 import java.util.*;
 
 /**
- * Implémentation de l'algorithme de Kruskal
+ * Implémentation de l'algorithme de Prim
  * <p>
  * Created by dalencourt on 27/03/17.
  */

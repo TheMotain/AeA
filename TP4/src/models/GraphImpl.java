@@ -29,14 +29,14 @@ public class GraphImpl implements Graph {
     }
 
     @Override
-    public void addVertexNumber(final int i) throws VertexAlreadyExistException {
+    public void addVertexId(final int i) throws VertexAlreadyExistException {
         Vertex e = new Vertex(i);
         if (this.nodes.contains(e)) {
             throw new VertexAlreadyExistException();
         }
         this.nodes.add(e);
     }
-    
+
     @Override
     public void addEdge(final int i, final int j, final int weight) throws VertexNotFoundException {
         Vertex vi;

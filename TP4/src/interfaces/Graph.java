@@ -27,7 +27,7 @@ public interface Graph {
      * @param i id du vertex
      * @throws VertexAlreadyExistException est remonté si l'id existe déjà
      */
-    void addVertexNumber(int i)
+    void addVertexId(int i)
             throws VertexAlreadyExistException;
 
     /**
