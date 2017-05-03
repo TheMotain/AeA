@@ -32,7 +32,7 @@ public class Prim implements Algorithm {
         liensDisponibles.sort(edgeComparator);
 
         // Tant qu'il y a des noeuds non rencontré
-        while(graph.getCountVertex() > 0) {
+        while(graph.getCountVertex() > 0 ) {
             // sélection du lien de poid le plus faible parmis les liens disponnible
             Edge tmp = Collections.min(liensDisponibles, edgeComparator);
             // Récupération du nouveau noeud
@@ -47,6 +47,13 @@ public class Prim implements Algorithm {
             liensDisponibles.addAll(graph.getEdgesFromVertex(target));
             // Suppression des cycles possible dans les liens possibles par rapport aux noeuds courrants rencontrés
             supprimerCycles(vertexInsere, liensDisponibles);
+            // Si il n'y a plus liens mais encore des noeuds on rajoute le premier noeud de la liste
+            // Cas de composante non connexe
+            while (liensDisponibles.size() == 0 && graph.getCountVertex() > 0){
+                Vertex v = graph.getVertexList().remove(0);
+                liensDisponibles.addAll(graph.getEdgesFromVertex(v));
+                vertexInsere.add(v);
+            }
         }
 
         final Graph output = new GraphImpl();

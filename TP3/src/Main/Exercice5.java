@@ -1,8 +1,8 @@
 package Main;
 
-import Graphe.Dicos;
 import Graphe.Graphe;
 import Utils.DicoParser;
+import Utils.Exercices;
 
 import java.io.IOException;
 

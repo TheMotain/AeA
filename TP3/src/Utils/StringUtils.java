@@ -7,6 +7,12 @@ package Utils;
  */
 public class StringUtils {
 
+    /**
+     * Regarde si deux chaines ont une seule lettre de différence. On suppose les chaines de taille égales
+     * @param a mot 1
+     * @param b mot 2
+     * @return vrai ou faux
+     */
     public static boolean diffUneLettre(String a, String b) {
         // a et b supposees de meme longueur
         int i = 0;
@@ -78,7 +84,6 @@ public class StringUtils {
         // sinon on test les différents chemins possibles :
         // - différence entre deux caractères
         // - suppression sur le mot a
-        // - suppression sur le mot b
         swap = recSupDiff(origine,objectif,sup,diff,origine_idx + 1, objectif_idx + 1, sup_actuel,diff_actuel + 1);
         sup_a = recSupDiff(origine,objectif,sup,diff,origine_idx + 1,objectif_idx, sup_actuel + 1, diff_actuel);
 

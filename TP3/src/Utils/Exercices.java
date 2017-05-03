@@ -1,8 +1,7 @@
-package Main;
+package Utils;
 
 import Graphe.Graphe;
 import Graphe.Successeur;
-import Utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;

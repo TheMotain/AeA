@@ -2,6 +2,7 @@ package Main;
 
 import Graphe.Dicos;
 import Graphe.Graphe;
+import Utils.Exercices;
 
 /**
  * Main pour l'exercice 2
