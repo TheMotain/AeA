@@ -46,6 +46,7 @@ public class TestPerformance {
             System.out.println(output);
             System.out.println("Temps d'exécution (ms) : " + temps);
             temps_total += temps;
+            System.gc();
         }
         temps_total /= nbExe;
         System.out.println("----------------------------------");
