@@ -44,6 +44,7 @@ public class PerformanceComparator {
             g = wp.run(g);
             time_total_algo_WP += System.currentTimeMillis() - start;
             nb_couleur_total_WP += g.getColorCount();
+            System.gc();
 
             // Exécution de la méthode BrighamDutton
             g = new Graphe(reference,true);
@@ -51,6 +52,7 @@ public class PerformanceComparator {
             g = bd.run(g);
             time_total_algo_BD += System.currentTimeMillis() - start;
             nb_couleur_total_BD += g.getColorCount();
+            System.gc();
 
             // Exécution de la méthode RLF
             g = new Graphe(reference,true);
@@ -58,6 +60,7 @@ public class PerformanceComparator {
             g = rlf.run(g);
             time_total_algo_RLF += System.currentTimeMillis() - start;
             nb_couleur_total_RLF += g.getColorCount();
+            System.gc();
         }
         System.out.println(String.format("Méthode WelshPowel -> Temps total : %s ms, Nombre de couleurs total : %s", time_total_algo_WP, nb_couleur_total_WP));
         System.out.println(String.format("Méthode BrighamDutton -> Temps total : %s ms, Nombre de couleurs total : %s", time_total_algo_BD, nb_couleur_total_BD));
